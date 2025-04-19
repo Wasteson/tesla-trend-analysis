@@ -2,22 +2,99 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Tesla Market Shift",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
     "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+    "text": "• Tesla diverged early. While most EV brands followed a gradual growth curve, Tesla entered and exited its surge phase earlier – suggesting a sharper, brand-specific trajectory.\n• Price sensitivity varies. Most segments showed textbook behavior: as listings increased, prices fell. Tesla, by contrast, remained price-stable – pointing to centralized pricing or brand insulation.\n• Timing overlaps with political signals. The most significant structural shifts in volume occurred around the same time as Musk’s Trump endorsement – not proof of causation, but enough to warrant further scrutiny.\n• Tesla breaks the model. Statistical models fit well for most segments, but Tesla’s higher residual error and flatter price–volume relationship point to episodic behavior and distinct market logic.\n• Implication: Watch Tesla. Real-time monitoring of brand-specific shifts could provide a competitive edge – especially when sentiment and leadership cues drive market volatility."
   },
   {
-    "objectID": "index.html#quarto",
-    "href": "index.html#quarto",
-    "title": "Tesla Market Shift",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+    "objectID": "index.html#market-overview-total-vs-electric-vs-fossil",
+    "href": "index.html#market-overview-total-vs-electric-vs-fossil",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "5.1 📈 Market overview – Total vs Electric vs Fossil",
+    "text": "5.1 📈 Market overview – Total vs Electric vs Fossil\nThe chart below shows the relative development in listing volume for fossil vehicles, electric vehicles, and the total used car market in Denmark – all indexed to April 2024 (week 1 = 100). A dramatic shift is visible from late summer 2024, with electric vehicles leading the surge.\nNote on indexing: The following charts use indexed volumes (Week 1 = 100) to show relative changes over time. This means we are comparing growth patterns – not absolute volumes. For example, Tesla may appear to outpace the EV market, but this reflects faster growth from a smaller base, not a larger total volume.\n\n\n\n\n\nIndexed listing volume: Total vs Fossil vs Electric (Retail only, Index = 100 in April 2024)"
   },
   {
-    "objectID": "index.html#running-code",
-    "href": "index.html#running-code",
-    "title": "Tesla Market Shift",
-    "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+    "objectID": "index.html#brand-comparison-tesla-vs-vw-id",
+    "href": "index.html#brand-comparison-tesla-vs-vw-id",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "5.2 🔍 Brand comparison – Tesla vs VW ID",
+    "text": "5.2 🔍 Brand comparison – Tesla vs VW ID\nDirect volume comparison between two comparable brands. Tesla displays more volatility and sharper surges, suggesting a faster transition once growth begins.\n\n\n\n\n\n📈 Indexed listing volume: Tesla vs VW ID (Retail only, Index = 100 in April 2024)"
+  },
+  {
+    "objectID": "index.html#structural-breakpoints-segmented-regression",
+    "href": "index.html#structural-breakpoints-segmented-regression",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "5.3 📐 Structural breakpoints – Segmented regression",
+    "text": "5.3 📐 Structural breakpoints – Segmented regression\nWhen did volume behavior change?\nWe compare Tesla, VW ID, Skoda Enyaq, the total market, and broader EVs using segmented regression.\nBoth one- and two-breakpoint models were tested to assess structural shifts in listing volumes.\nFindings\nThe one-breakpoint model suggested that Tesla shifted earlier than the rest – with a change around week 30, while other segments (VW ID, Enyaq, EVs, total market) shifted later, typically in week 38.\nTo test this further, we applied a two-breakpoint model to explore potential phase transitions:\n\nTesla entered its growth phase slightly after others (week 23)\n\nBut its second structural shift occurred earlier (week 36 vs. week 38 for peers)\n\nInterpretation\nTesla’s volume curve was more compressed and sharper, suggesting a distinct growth pattern:\n⚡ Not out of sync – but different. This supports the idea of brand-specific drivers, rather than a uniform EV market trend.\n\n\n\nSegmented regression (2 breakpoints): Tesla, VW ID, Electric vehicles\n\n\nSegment\nBreakpoints\nR²\nResidual Std. Error\n\n\n\n\nTesla\n23, 36\n0.90\n1700.16\n\n\nVW ID\n21, 38\n0.93\n887.77\n\n\nElectric vehicles\n21.3, 38\n0.95\n1187.67\n\n\n\n\n\nModel interpretation: Tesla vs. peers\nWhile all models exhibit a good fit (R² &gt; 0.90), there are notable differences in residual error.\nTesla shows the lowest R² (0.90) and highest residual standard error (1700) compared to VW ID (R² = 0.93, RSE ≈ 888) and the broader EV segment (R² = 0.95, RSE ≈ 1188).\nThis suggests that Tesla’s volume curve is less well captured by a simple two-phase model, and likely reflects:\n\nSharper transitions in listing behavior (e.g., price cuts, sudden demand surges)\nMore episodic dynamics, potentially driven by brand-specific strategies\nOutlier events or volatility not present in other EV segments\n\n🧠 Interpretation:\nThe higher residual variation reinforces the idea that Tesla’s structural shifts follow a more distinct and compressed pattern, which supports the argument for brand-specific timing mechanisms rather than a uniform EV market trend."
+  },
+  {
+    "objectID": "index.html#timing-of-breakpoints-in-listing-trends",
+    "href": "index.html#timing-of-breakpoints-in-listing-trends",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "5.4 Timing of breakpoints in listing trends",
+    "text": "5.4 Timing of breakpoints in listing trends\n\n\n\n\n\nTiming of structural shifts in listing volume – segmented regression breakpoints (2 per brand)\n\n\n\n\n“Breakpoints show a more compressed transition for Tesla: it entered its growth phase slightly later, but exhibited an earlier structural shift in pattern. Peers (VW ID, EV market) followed a broader, more aligned trajectory across the period.”"
+  },
+  {
+    "objectID": "index.html#correlation-price-vs.-volume",
+    "href": "index.html#correlation-price-vs.-volume",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "6.1 📊 Correlation: Price vs. Volume",
+    "text": "6.1 📊 Correlation: Price vs. Volume\n\n\n\nCorrelation between weekly listing volume and median retail price\n\n\nSegment\nPearson correlation\nP-value\n\n\n\n\nTesla\n-0.085\n0.595\n\n\nVW ID\n-0.420\n0.002\n\n\nElectric vehicles\n-0.649\n0.000\n\n\nFossil vehicles\n-0.670\n0.000\n\n\n\n\n\nInterpretation\n\n📉 Fossil vehicles and EVs: strong negative correlation → more listings = lower prices\n\n📉 VW ID: moderate but significant correlation\n\n➖ Tesla: nearly flat, non-significant relationship (r = –0.085, p = 0.595)\n\nThis suggests that Tesla’s prices were less sensitive to changes in listing volume, diverging from other segments."
+  },
+  {
+    "objectID": "index.html#scatterplot-volume-vs-median-price-for-selected-brands",
+    "href": "index.html#scatterplot-volume-vs-median-price-for-selected-brands",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "6.2 🔁 Scatterplot – Volume vs median price for selected brands",
+    "text": "6.2 🔁 Scatterplot – Volume vs median price for selected brands\n\n\n\n\n\nVolume vs. median retail price – Selected brands (Tesla, VW ID, Skoda Enyaq)\n\n\n\n\nInterpretation\n\nThis scatterplot shows the relationship between weekly listing volume (x-axis) and median retail price (y-axis) for three EV brands: Tesla, VW ID, and Skoda Enyaq. Each point represents one week; the trendlines show the direction and strength of that relationship for each brand. Two visual elements are key here:\nSlope of the line → how prices respond to changes in volume\n\n– A steeper negative slope means prices drop as listings rise (more price-sensitive).\n\n– A flat line indicates prices remain stable regardless of supply.\nLength of the line → the range of observed volumes\n\n– A longer line means that the segment has been listed across a wider range of weekly volumes.\n\n– A shorter line signals that the brand rarely reaches high volumes – so price behavior is only observed within a narrower supply band.\nFindings\n\n– VW ID combines a long line and a steep slope – indicating both high listing activity and strong price sensitivity.\n\n– Skoda Enyaq has a shorter but steep line – fewer weeks with high volume, but still a clear price drop pattern.\n\n– Tesla displays a flat and relatively short line – suggesting stable prices across a narrow volume range, reinforcing earlier signs of centralized pricing or limited responsiveness to weekly market conditions.\nTogether, these patterns reveal that volume alone doesn’t determine pricing power – the brand matters, and Tesla continues to diverge from peers in how it responds to market shifts."
+  },
+  {
+    "objectID": "index.html#smoothed-price-trends-loess",
+    "href": "index.html#smoothed-price-trends-loess",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "6.3 📐 Smoothed Price Trends (LOESS)",
+    "text": "6.3 📐 Smoothed Price Trends (LOESS)\n\n\n\n\n\nLOESS-smoothed price trends per segment\n\n\n\n\nInterpretation\nThis chart shows smoothed weekly median prices using LOESS – a local regression technique that highlights broad trends while filtering out week-to-week noise.\n\nFossil vehicles display a steady decline, suggesting sustained price pressure across the period.\n\nElectric vehicles show more fluctuation but a generally downward trend, indicating both volatility and emerging price normalization.\n\nVW ID closely tracks the broader EV market, reinforcing its role as a representative subsegment.\n\nTesla stands out with elevated and relatively stable prices – despite some variation, the curve suggests resilience compared to peers.\n\nIn essence, this view highlights the structural separation in pricing levels between segments – with Tesla maintaining premium positioning."
+  },
+  {
+    "objectID": "index.html#final-takeaway",
+    "href": "index.html#final-takeaway",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "6.4 🧠 Final takeaway",
+    "text": "6.4 🧠 Final takeaway\nWhile most segments followed textbook supply–demand logic (volume up → price down), Tesla defied the trend. Its prices remained elevated and stable, even as listings grew – signaling brand-specific dynamics, insulation, or deliberate pricing control.\nTesla doesn’t just behave differently – it moves on its own terms.\nIn short, the pattern is visible – and we’ve surfaced the shift."
+  },
+  {
+    "objectID": "index.html#weekly-median-retail-prices",
+    "href": "index.html#weekly-median-retail-prices",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "7.1 Weekly median retail prices",
+    "text": "7.1 Weekly median retail prices\n\n\n\n\n\nWeekly median retail prices – Total market, Fossil, and EV segments\n\n\n\n\nFossil vehicles held stable throughout the period, with only gradual decline – a hallmark of a mature, supply-stable segment. EV prices, by contrast, started high and trended downward. This supports the idea of market normalization: more listings, more competition, and an erosion of the early EV price premium."
+  },
+  {
+    "objectID": "index.html#weekly-median-retail-prices---tesla-vs-vw-id",
+    "href": "index.html#weekly-median-retail-prices---tesla-vs-vw-id",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "7.2 Weekly median retail prices - Tesla vs VW ID",
+    "text": "7.2 Weekly median retail prices - Tesla vs VW ID\n\n\n\n\n\nWeekly median prices – Tesla vs VW ID\n\n\n\n\nDespite similar volumes, price dynamics diverge sharply. VW ID follows a modest and stable path. Tesla, meanwhile, swings unpredictably – suggesting sensitivity to external cues or internal recalibration. Volatility here may not signal chaos, but control: pricing used as an active lever."
+  },
+  {
+    "objectID": "index.html#indexed-prices-week-1-100",
+    "href": "index.html#indexed-prices-week-1-100",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "7.3 📏 Indexed Prices (Week 1 = 100)",
+    "text": "7.3 📏 Indexed Prices (Week 1 = 100)\n\n\n\n\n\nRetail price index per segment (Week 1 = 100)\n\n\n\n\nIndexing reveals a clearer narrative: Fossil and EV prices decline together, but Tesla defies the trend. Its price index remains elevated – fluctuating, but consistently above peers. This reinforces earlier points: Tesla isn’t just another EV brand, it moves to its own logic – structurally distinct in both volume and price."
+  },
+  {
+    "objectID": "index.html#total-markets-volume-vs.-price-scatter",
+    "href": "index.html#total-markets-volume-vs.-price-scatter",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "7.4 Total markets volume vs. Price – Scatter",
+    "text": "7.4 Total markets volume vs. Price – Scatter\n\n\n\n\n\nScatterplot – Weekly volume vs median price (per segment)\n\n\n\n\nThis scatterplot quantifies what we’ve hinted at: volume correlates negatively with price across segments – except for Tesla. Where others follow the textbook rule (more listings = lower prices), Tesla’s line is nearly flat. It absorbs volume without discounting – or at least, without obvious market-based pressure.\nTogether, these charts reinforce the central pattern: Tesla doesn’t just behave differently – it prices differently, moves differently, and responds to change on its own terms. For market watchers, that makes it both harder to predict – and more important to watch."
+  },
+  {
+    "objectID": "index_backup_push.html",
+    "href": "index_backup_push.html",
+    "title": "Tesla Trend Analysis – Used Car Market 2024–2025",
+    "section": "",
+    "text": "source(“trumpmusktesla_2.R”)"
   }
 ]

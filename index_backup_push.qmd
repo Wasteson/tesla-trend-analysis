@@ -1,0 +1,29 @@
+---
+title: "Tesla Trend Analysis – Used Car Market 2024–2025"
+author: "Wasteson x TrackSights"
+format:
+  html:
+    theme: darkly
+    toc: true
+    toc-title: "Table of Contents"
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    fig-cap-location: bottom
+    smooth-scroll: true
+    link-external-newwindow: true
+editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+
+```{r}
+# Kjør analysen fra skriptet
+source("trumpmusktesla_2.R")
+
+---
+
+## 
