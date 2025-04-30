@@ -2,7 +2,7 @@
 title: "Tesla Trend Analysis – Used Car Market 2024–2025"
 author: "Wasteson x TrackSights"
 description: "Visual analysis of structural shifts in Tesla listings and prices during 2024–2025 in the Danish used car market."
-image: "objective_pic.png"
+image: "https://wasteson.github.io/tesla-trend-analysis/objective_pic.png"
 open-graph: true
 twitter-card: true
 format:
