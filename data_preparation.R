@@ -753,3 +753,91 @@ ggplot(market_data, aes(x = segment, y = Price, fill = segment)) +
     legend.position = "none"
   )
 
+
+# --------------------------
+
+# 📈 1. Totalmarkedet – LOESS uten punkter, med råvolum svakt i bakgrunnen
+
+# 📊 Data for total, fossil og electric
+volume_total_loess <- volume_combined %>%
+  mutate(week = as.POSIXct(week))
+
+# 🎨 Plot
+ggplot(volume_total_loess, aes(x = week)) +
+  geom_line(aes(y = n, color = segment), linewidth = 0.8, alpha = 0.3) +  # råvolum, tynn og lys
+  geom_smooth(aes(y = n, color = segment), method = "loess", span = 0.6, se = FALSE, linewidth = 1.5) + # LOESS-smooth
+  annotate("rect", xmin = holiday_start, xmax = holiday_end, ymin = -Inf, ymax = Inf, fill = "gray30", alpha = 0.3) +
+  geom_vline(data = events, aes(xintercept = date), linetype = "dashed", color = "white") +
+  geom_text(data = events, aes(x = date, y = Inf, label = label),
+            angle = 90, vjust = -0.5, hjust = 1.1, size = 3.5, color = "white", inherit.aes = FALSE) +
+  scale_color_manual(values = c(
+    "Electric vehicles" = "#FFDD57",
+    "Fossil vehicles" = "#FF6B6B",
+    "Total market" = "#00c0c7"
+  )) +
+  labs(
+    title = "Weekly retail volume – Total vs Electric vs Fossil (LOESS smoothed)",
+    subtitle = "Retail listings per week · Smoothed volume trends",
+    x = "Week", y = "Number of listings", color = "Segment"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.background = element_rect(fill = "#1e1e1e"),
+    panel.background = element_rect(fill = "#1e1e1e"),
+    panel.grid.major = element_line(color = "#444444"),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white"),
+    legend.background = element_rect(fill = "#1e1e1e"),
+    legend.key = element_rect(fill = "#1e1e1e")
+  )
+
+# 💾 Lagre grafen
+ggsave(
+  filename = "Weekly retail volume – Total vs Electric vs Fossil (LOESS dark).png",
+  width = 10, height = 6, dpi = 300, bg = "#1e1e1e"
+)
+
+
+
+
+# 📈 2. Brand-segmentene – Tesla vs VW ID vs Skoda Enyaq – LOESS uten punkter
+# 📊 Data for Tesla, VW ID, Skoda Enyaq
+volume_brand_loess <- market_data %>%
+  filter(segment %in% c("Tesla", "VW ID", "Skoda Enyaq")) %>%
+  count(week, segment) %>%
+  mutate(week = as.POSIXct(week))
+
+# 🎨 Plot
+ggplot(volume_brand_loess, aes(x = week)) +
+  geom_line(aes(y = n, color = segment), linewidth = 0.8, alpha = 0.3) +  # råvolum, tynn og lys
+  geom_smooth(aes(y = n, color = segment), method = "loess", span = 0.6, se = FALSE, linewidth = 1.5) + # LOESS-smooth
+  annotate("rect", xmin = holiday_start, xmax = holiday_end, ymin = -Inf, ymax = Inf, fill = "gray30", alpha = 0.3) +
+  geom_vline(data = events, aes(xintercept = date), linetype = "dashed", color = "white") +
+  geom_text(data = events, aes(x = date, y = Inf, label = label),
+            angle = 90, vjust = -0.5, hjust = 1.1, size = 3.5, color = "white", inherit.aes = FALSE) +
+  scale_color_manual(values = c(
+    "Tesla" = "#E82127",
+    "VW ID" = "#1A93D9",
+    "Skoda Enyaq" = "#F9A825"
+  )) +
+  labs(
+    title = "Weekly retail volume – Tesla vs VW ID vs Skoda Enyaq (LOESS smoothed)",
+    subtitle = "Retail listings per week · Smoothed volume trends",
+    x = "Week", y = "Number of listings", color = "Brand"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.background = element_rect(fill = "#1e1e1e"),
+    panel.background = element_rect(fill = "#1e1e1e"),
+    panel.grid.major = element_line(color = "#444444"),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white"),
+    legend.background = element_rect(fill = "#1e1e1e"),
+    legend.key = element_rect(fill = "#1e1e1e")
+  )
+
+# 💾 Lagre grafen
+ggsave(
+  filename = "Weekly retail volume – Tesla vs VW ID vs Skoda Enyaq (LOESS dark).png",
+  width = 10, height = 6, dpi = 300, bg = "#1e1e1e"
+)
