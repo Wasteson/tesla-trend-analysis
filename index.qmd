@@ -16,7 +16,6 @@ format:
     fig-cap-location: bottom
     smooth-scroll: true
     link-external-newwindow: true
-    include-in-header: meta.html 
 editor: visual
 execute:
   echo: false
