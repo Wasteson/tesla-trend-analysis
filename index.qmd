@@ -1,7 +1,7 @@
 ---
 title: "Tesla Trend Analysis – Used Car Market 2024–2025"
 author: "Wasteson x TrackSights"
-image: "objective_pic.png"
+image: "https://wasteson.github.io/tesla-trend-analysis/objective_pic.png"
 open-graph: true
 twitter-card: true
 format:
@@ -21,6 +21,8 @@ execute:
   warning: false
   message: false
   cache: false
+project:
+  type: website
 ---
 
 # 🎯 Objective
