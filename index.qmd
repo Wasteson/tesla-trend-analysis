@@ -141,7 +141,7 @@ This analysis is based on listing data from the Danish used car marketplace Bilb
 We applied the following preprocessing steps:
 
 -   **Date parsing and filtering**\
-    Listings were parsed using `CreatedDate` and filtered to include only valid `RetailPrice` entries. Listings with prices below 10,000 DKK were excluded, as were entries within a defined holiday period (Dec 20 – Jan 5) due to anomalously low activity.
+    Listings were parsed using `CreatedDate` and filtered to include only valid `RetailPrice` entries. Listings with prices below 10,000 DKK were excluded, as were entries within a defined holiday period (Dec 20 – Jan 5) due to anomalously low activity
 
 -   **Fuel type classification**\
     Listings were grouped into two fuel groups based on `FuelType`:\
@@ -183,9 +183,9 @@ This section presents key analytical findings on market activity and structural 
 
 We explore:
 
-1.  **Market overview:** How weekly listing volumes evolved across electric, fossil, and total market segments.
-2.  **Brand behavior:** How Tesla’s listing activity compared to VW ID and Skoda Enyaq.
-3.  **Structural shifts:** When breakpoints occurred, based on segmented regression analysis.
+1.  **Market overview:** How weekly listing volumes evolved across electric, fossil, and total market segments
+2.  **Brand behavior:** How Tesla’s listing activity compared to VW ID and Skoda Enyaq
+3.  **Structural shifts:** When breakpoints occurred, based on segmented regression analysis
 
 Together, these results reveal distinct growth trajectories and timing patterns across segments.
 
@@ -256,15 +256,17 @@ In short: - **Tesla**: late and steady growth - **VW ID**: earlier transition, b
 
 ## ⏱️ Timing of breakpoints in listing trends
 
-The chart below shows the estimated timing of structural shifts in weekly listing volume, based on segmented regression with two breakpoints per brand or segment.
+The chart below shows the estimated timing of structural shifts in weekly listing volume, based on segmented regression with two breakpoints per brand or segment. Each line represents a key growth phase — from first to second breakpoint — during which listing activity accelerated.
 
-Each line connects two breakpoints, representing the start and end of a key growth phase.
+Key observations:
 
-**Key observations:**
+-   **Skoda Enyaq** and **Electric vehicles** entered their acceleration phase early (around weeks 11–12) and maintained steady growth through to week 27
 
--   **Skoda Enyaq** and **Electric vehicles (all EVs)** both exhibit early breakpoints – between weeks 11 and 13 – suggesting an early onset of volume growth.
--   **VW ID** follows closely, shifting between weeks 16 and 24.
--   **Tesla** enters its growth phase later, with a first breakpoint in **week 19** and a second in **week 33**, indicating a **more delayed and prolonged transition**.
+-   **VW ID** followed with a slightly later transition (weeks 17–26), marked by strong and consistent volume increases
+
+-   **Tesla** shifted latest, with its growth phase extending from week 19 to week 33 — a more delayed and prolonged transition
+
+While growth continues beyond the second breakpoint, these periods highlight when acceleration began — and how differently each brand progressed.
 
 ```{r}
 include_graphics("Timing of structural shifts in listing volume.png")
