@@ -1,0 +1,9 @@
+open-graph:
+  title: "Tesla Trend Analysis – Used Car Market 2024–2025"
+  description: "Visual analysis of Tesla's listings and prices in the Danish used EV market."
+  image: "https://wasteson.github.io/tesla-trend-analysis/objective_pic.png"
+  locale: en_US
+
+twitter-card:
+  card-style: summary_large_image
+  image: "https://wasteson.github.io/tesla-trend-analysis/objective_pic.png"
