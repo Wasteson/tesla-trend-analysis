@@ -340,14 +340,6 @@ include_graphics("LOESS_median_price_trends_with_Enyaq_dark.png")
 
 This chart applies LOESS smoothing to highlight structural price dynamics over time — revealing whether prices declined steadily, shifted abruptly, or remained stable.
 
-**Interpretation cues**
-
--   **Slope**: sustained inclines or declines suggest underlying price trends
-
--   **Curvature**: inflection points indicate transitions or reversals
-
--   **Separation**: vertical distance between lines shows relative price levels across segments
-
 **Findings**
 
 • **Fossil vehicles** display a steady and consistent price decline across the period\
