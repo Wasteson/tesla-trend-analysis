@@ -33,7 +33,7 @@ This project takes a retrospective view to explore structural shifts in the Dani
 The aim is to test whether meaningful patterns in market data can be surfaced — early and clearly — through close monitoring of retail activity.
 
 ```{r}
-knitr::include_graphics("objective_pic.png")
+knitr::include_graphics("objective_pic2.png")
 ```
 
 > # 📋 Executive Summary
