@@ -2,7 +2,7 @@
 metadata-files: [metadata.yml]
 title: "Tesla Trend Analysis – Used Car Market 2024–2025"
 author: "Wasteson x TrackSights"
-image: "https://wasteson.github.io/tesla-trend-analysis/objective_pic.png"
+image: "https://wasteson.github.io/tesla-trend-analysis/objective_pic2.png"
 open-graph: true
 twitter-card: true
 format:

@@ -841,3 +841,50 @@ ggsave(
   filename = "Weekly retail volume – Tesla vs VW ID vs Skoda Enyaq (LOESS dark).png",
   width = 10, height = 6, dpi = 300, bg = "#1e1e1e"
 )
+
+
+
+
+# ---------------
+# enkelt toppbilde
+
+# 📊 Data for enkel introduksjonsgraf
+volume_ev_segments_simple <- market_data %>%
+  filter(segment %in% c("Tesla", "VW ID", "Skoda Enyaq")) %>%
+  count(week, segment) %>%
+  mutate(week = as.POSIXct(week))
+
+# 🎨 Dark mode-visualisering uten ekstra elementer
+ggplot(volume_ev_segments_simple, aes(x = week, y = n, color = segment)) +
+  geom_line(linewidth = 1.2) +
+  scale_color_manual(values = c(
+    "Tesla" = "#E82127",
+    "VW ID" = "#1A93D9",
+    "Skoda Enyaq" = "#F9A825"
+  )) +
+  labs(
+    title = "Weekly retail volume – Tesla vs VW ID vs Skoda Enyaq",
+    subtitle = "Actual listings per week · From July 2024",
+    x = NULL, y = "Number of listings", color = "Brand"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.background = element_rect(fill = "#1e1e1e", color = NA),
+    panel.background = element_rect(fill = "#1e1e1e", color = NA),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white"),
+    legend.background = element_rect(fill = "#1e1e1e"),
+    legend.key = element_rect(fill = "#1e1e1e"),
+    legend.position = "bottom"
+  )
+
+# 💾 Lagre grafen
+ggsave(
+  filename = "Weekly retail volume – Tesla vs VW ID vs Skoda Enyaq (dark simple).png",
+  width = 10,
+  height = 6,
+  dpi = 300,
+  bg = "#1e1e1e"
+)
