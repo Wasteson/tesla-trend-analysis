@@ -1,0 +1,548 @@
+---
+title: "Tesla Trend Analysis – Danish Used Car Market 2024–2026"
+author: "Wasteson x TrackSights"
+format:
+  html:
+    theme: darkly
+    toc: true
+    toc-title: "Table of Contents"
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    fig-cap-location: bottom
+    smooth-scroll: true
+    link-external-newwindow: true
+editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
+  cache: false
+---
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library(tibble)
+library(kableExtra)
+```
+
+# Objective
+
+This analysis examines structural shifts in the Danish used car market
+between July 2024 and April 2026, with a specific focus on Tesla's
+behavior relative to comparable electric vehicle brands.
+
+The central questions are: Did Tesla's listing volume and pricing
+dynamics diverge from peer brands during this period? And can any
+divergence be linked — descriptively, not causally — to the sequence
+of high-profile political events associated with Elon Musk and Donald
+Trump?
+
+The analysis is built on weekly listing data from Bilbasen, the primary
+Danish used car marketplace, provided via TrackSights. All prices
+reflect asking prices — what sellers list, not what buyers paid.
+
+---
+
+> ## Executive Summary
+>
+> **A market that moved — and a brand that moved differently**
+>
+> The Danish used car market expanded substantially from mid-2024
+> onward, with weekly listing volumes roughly doubling across all
+> segments by early 2025. Electric vehicles led the expansion in
+> relative terms.
+>
+> Within this broader shift, Tesla stood apart — not by moving first,
+> but by moving differently.
+>
+> **Compressed structural shift.** Tesla's listing volume underwent a
+> rapid, concentrated transition between October and November 2024 —
+> both structural breakpoints falling within approximately five weeks
+> of each other. Peer brands such as VW ID and Skoda Enyaq showed
+> more gradual transitions spanning months.
+>
+> **Price stability under volume pressure.** While VW ID, Skoda Enyaq,
+> and the broader EV market showed negative correlations between weekly
+> listing volume and median asking price, Tesla showed no meaningful
+> price response to volume changes — the only brand in this analysis
+> with a near-zero or slightly positive price-volume relationship.
+>
+> **The Musk/Trump question.** Tesla's volume surge coincided with the
+> period surrounding Trump's election victory in November 2024.
+> Price volatility patterns around the three political events examined
+> showed brand-specific differences, most notably in the post-election
+> period where Tesla's volatility declined while VW ID's remained
+> elevated. However, with narrow event windows and confounding factors
+> including seasonal patterns and broader market dynamics, no causal
+> attribution is warranted.
+>
+> **What this means.** Tesla appears to operate under a different
+> market logic than its peers — one where supply does not drive price
+> in the conventional sense. Whether this reflects centralized pricing
+> strategy, brand loyalty, or sensitivity to external signals remains
+> an open question. The pattern is visible and measurable. The
+> mechanism is not.
+
+---
+
+# Data & Methods
+
+## Source and scope
+
+This analysis is based on retail listings from Bilbasen, Denmark's
+primary used car marketplace, extracted via TrackSights from the table
+`bilinfo.staging_bilinfo_single` in the TrackSights BigQuery
+infrastructure.
+
+**Analysis period:** 1 July 2024 – 3 April 2026.
+The start date reflects a data quality threshold: listing coverage in
+the source table is sparse and potentially unrepresentative before
+July 2024, with Tesla averaging fewer than 5 listings per week in
+April–June 2024. Including this period would destabilise breakpoint
+estimates for the early analysis window.
+
+**Data type:** Flow-based analysis. The time axis reflects
+`CreatedDate` — when a listing first appeared on Bilbasen — not the
+total inventory at any point in time. This is an important
+distinction: the charts show new listings entering the market each
+week, not the cumulative stock of available cars. Flow data captures
+early signals; it does not reflect what is currently for sale.
+
+**Filters applied:**
+
+- Retail listings only (`PriceType = 'RetailPrice'`)
+- Minimum price: 10,000 DKK (removes leasing entries and data errors)
+- Maximum price: 99.5th percentile (~800,000 DKK) per analysis run
+- Holiday periods excluded: 20 December – 5 January in both
+  2024/25 and 2025/26, due to anomalously low listing activity
+- One anomalous week excluded: week of 24 August 2025, where Tesla
+  showed 1,296 listings against a median of 120 — consistent with
+  a batch import rather than organic market activity
+
+## Comparison group
+
+The comparison group was selected to isolate brand-specific dynamics
+from distributional or structural confounders. Three criteria guided
+inclusion:
+
+1. **Price segment:** C/D-segment, broadly comparable new-car price
+   to Tesla Model 3/Y (300,000–600,000 DKK)
+2. **Volume threshold:** Median ≥ 10 listings per week in the
+   analysis population, ensuring reliable weekly estimates
+3. **Sales model:** Primarily dealer-sold (not direct-to-consumer),
+   so that pricing differences can be attributed to brand dynamics
+   rather than distribution structure
+
+| Brand | Role | Rationale |
+|---|---|---|
+| VW ID | Primary reference | Highest volume, same segment, dealer sales |
+| Hyundai Ioniq 5 | Primary reference | C/D-segment, dealer sales, stable from Sep 2024 |
+| Skoda Enyaq | Secondary reference | Slightly lower price segment — if pattern holds here too, it strengthens Tesla finding |
+| BYD | New entrant observation | Included from Jan 2025 when weekly volume reaches stable threshold |
+| BMW iX | Excluded | Insufficient volume; franchise pricing introduces confounder |
+| Peugeot e-208 | Excluded | Wrong price segment (B-segment, different buyer profile) |
+| BYD pre-2025 | Excluded | Median < 5 listings/week before Jan 2025 |
+
+## Methods
+
+**Weekly aggregation.** Listings grouped by `floor_date(CreatedDate, "week")`. Weekly counts and median prices computed per segment.
+
+**LOESS smoothing.** Local polynomial regression with span = 0.3, applied to weekly counts and prices. Span chosen as a balance between noise reduction and responsiveness to structural change. A sensitivity analysis with span = 0.2 and 0.5 confirms that primary conclusions are robust to bandwidth choice — see Section 5.
+
+**Segmented regression.** Two-breakpoint piecewise linear model fitted to weekly volume index (week 1 = 100) per brand, using the `segmented` package in R. The two-breakpoint specification was chosen to capture the typical three-phase pattern observed in these data: stable period, acceleration phase, new stable level. Confidence intervals on breakpoints are reported via `confint()`. R² is reported for completeness but should not be interpreted in isolation — high R² is expected on trending time series and does not by itself validate model specification.
+
+**Correlation analysis.** Pearson correlation between weekly listing volume and median retail price, per brand. Spearman rank correlation reported in parallel as a robustness check, given that the Pearson coefficient assumes linearity — an assumption that may not hold across the full volume range in this dataset.
+
+**Price volatility.** Weekly interquartile range (IQR) of retail asking prices, used as the primary volatility measure in the event analysis. IQR is robust to outliers and does not require distributional assumptions.
+
+---
+
+# Market context
+
+The chart below shows smoothed weekly listing volumes for the total
+Danish used car market, segmented by fuel type. LOESS smoothing
+(span = 0.3) filters short-term noise to reveal structural direction.
+```{r}
+include_graphics("output/01_market_overview_loess.png")
+```
+
+Weekly listing volumes roughly doubled across all segments between
+July 2024 and early 2025. Electric vehicles expanded faster in
+relative terms, growing from a small base to represent a meaningfully
+larger share of total listings by mid-2025.
+
+The drivers of this expansion cannot be fully separated from listing
+data alone. Three factors likely contributed: the maturation of
+leasing contracts signed during the 2021–2022 EV boom returning
+vehicles to the used market; Tesla's repeated new-car price reductions
+pressuring existing owners to sell; and improving data coverage in
+the Bilbasen pipeline from mid-2024 onward. The relative contribution
+of each is not estimable from listing data.
+
+The market-wide expansion provides necessary context for the brand
+analysis that follows: Tesla's volume growth did not occur in a
+vacuum, and any brand-level interpretation must be assessed against
+this backdrop.
+
+---
+
+# Brand dynamics — volume
+
+## Smoothed listing volumes
+```{r}
+include_graphics("output/02_brand_comparison_loess.png")
+```
+
+VW ID shows the highest absolute volume and the steepest growth
+trajectory, particularly from late 2024 onward. Tesla and Skoda
+Enyaq follow more moderate paths. Hyundai Ioniq 5 and BYD operate
+at lower volumes throughout, consistent with their position as
+secondary reference brands.
+
+Tesla's curve is notable for two features: a delayed initial lift
+relative to VW ID, and a relatively flat trajectory from early 2025
+onward — neither declining sharply nor continuing to grow. Whether
+this plateau reflects market saturation, supply constraints, or
+pricing dynamics is explored in Section 6.
+
+## LOESS sensitivity
+
+The chart below shows the same Tesla vs. VW ID comparison under three
+bandwidth choices. The central conclusions — that VW ID grew faster
+and peaked earlier, and that Tesla's trajectory is flatter and more
+stable — are consistent across all three specifications.
+```{r}
+include_graphics("output/03_loess_sensitivity.png")
+```
+
+---
+
+# Structural shifts
+
+## Breakpoint analysis
+
+We applied segmented regression with two breakpoints to the weekly
+volume index for each brand. Breakpoints mark estimated inflection
+points where the rate of growth changed structurally. Confidence
+intervals are shown as shaded bands; where the CI is wide, the
+estimate should be interpreted with corresponding caution.
+```{r}
+include_graphics("output/04_segmented_tesla.png")
+```
+
+Tesla's two breakpoints fall within approximately five weeks of each
+other — both in the October–November 2024 window. This compressed
+transition is the most analytically distinctive feature of Tesla's
+volume pattern: the market shifted rapidly from low to high listing
+activity, then stabilised. The model fits well (R² = 0.74), though
+RSE = 889 reflects substantial week-to-week volatility around the
+trend.
+```{r}
+include_graphics("output/04_segmented_vw_id.png")
+```
+
+VW ID shows a more gradual growth phase, with the first breakpoint
+around February 2025 (BP 37.9, CI [32.9–42.9]) and a second near
+October 2025 (BP 72, CI [41.6–102.4]). The second breakpoint carries
+a wide confidence interval, as it falls near the current end of the
+analysis period — this reflects genuine uncertainty about whether the
+observed flattening is a structural shift or short-term variation.
+R² = 0.88 with RSE = 247 indicates a stronger and more stable
+underlying trend than Tesla.
+```{r}
+include_graphics("output/04_segmented_skoda_enyaq.png")
+```
+```{r}
+include_graphics("output/04_segmented_hyundai_ioniq_5.png")
+```
+
+Skoda Enyaq shows a clear inverted-U pattern — growth through early
+2025, plateau, then gradual decline. The transition between phases
+is spread across approximately 30 weeks, in contrast to Tesla's
+5-week compression. Hyundai Ioniq 5 shows high residual volatility
+(RSE = 181, R² = 0.54) — the two-breakpoint model captures the
+broad shape but not the week-to-week variation, consistent with the
+lower and more irregular listing volumes for this brand.
+
+## Timing comparison
+```{r}
+include_graphics("output/05_breakpoint_timing.png")
+```
+
+The timing chart makes the cross-brand comparison explicit. Tesla
+and Hyundai Ioniq 5 both show tightly clustered breakpoints in the
+February–March 2025 window — their structural shifts completed
+quickly. Skoda Enyaq spans the longest interval between breakpoints,
+reflecting its more gradual market cycle. VW ID's second breakpoint
+extends toward the analysis boundary with a correspondingly wide
+confidence interval.
+
+Two tightly clustered breakpoints — as seen in Tesla and Hyundai
+Ioniq 5 — indicate a compressed transition: the market shifted from
+one regime to another rapidly. This is qualitatively different from
+Skoda Enyaq's gradual multi-month transition, and may reflect
+different sensitivities to external signals, supply shocks, or
+brand-specific demand dynamics.
+
+---
+
+# Price dynamics
+
+## Volume–price correlation
+```{r}
+include_graphics("output/06_correlation_price_volume.png")
+```
+
+The chart shows Pearson r (circles) and Spearman ρ (triangles) for
+each brand. Both methods agree in direction across all segments —
+the lineariy assumption embedded in Pearson does not materially
+affect the conclusions here.
+
+All brands except Tesla show significant negative correlations between
+weekly listing volume and median asking price: more listings
+correspond to lower prices. This is consistent with standard
+supply-driven price dynamics.
+
+Tesla is the exception. Both Pearson (r = 0.06, p = 0.57) and
+Spearman (ρ = -0.19, p = 0.07) are near zero and non-significant.
+Tesla's asking prices do not respond to supply in the way observed
+for any other brand in this analysis.
+```{r}
+#| tbl-cap: "Correlation between weekly listing volume and median retail price"
+
+readRDS("data/params_this_run.rds") # loads params for reference
+
+corr_table <- tibble(
+  Brand = c("Tesla", "VW ID", "Hyundai Ioniq 5",
+            "Skoda Enyaq", "Electric vehicles", "Fossil vehicles"),
+  `Pearson r` = c(0.061, -0.675, -0.300, -0.685, -0.793, -0.709),
+  `Pearson p` = c(0.573, "<0.001", 0.005, "<0.001", "<0.001", "<0.001"),
+  `Spearman ρ` = c(-0.194, -0.594, -0.223, -0.544, -0.605, -0.414),
+  `Spearman p` = c(0.072, "<0.001", 0.040, "<0.001", "<0.001", "<0.001")
+)
+
+kable(corr_table, align = "lrrrr") |>
+  kable_styling(bootstrap_options = c("striped", "hover"),
+                full_width = FALSE)
+```
+
+## Volume vs. price scatterplot
+```{r}
+include_graphics("output/07_scatter_volume_price.png")
+```
+
+Each point represents one week. The linear trendline per brand
+visualises the direction and magnitude of the volume–price
+relationship.
+
+Skoda Enyaq and VW ID show clearly negative slopes — higher supply
+weeks correspond to lower median prices. Hyundai Ioniq 5 shows the
+steepest negative slope, but operates across a narrow volume range
+(0–100 listings per week), so the estimate is less stable. Tesla's
+trendline is nearly flat with a slight positive slope — the only
+brand where prices do not decline as listings increase.
+
+## Smoothed price trends
+```{r}
+include_graphics("output/08_price_loess.png")
+```
+
+LOESS-smoothed median asking prices reveal the structural price
+direction over time. Fossil vehicles show a consistent decline
+throughout the period. Electric vehicles follow a similar path with
+more variation. VW ID tracks the EV average closely. Skoda Enyaq
+starts highest among EV brands and shows the steepest decline toward
+the end of the period.
+
+Tesla maintains the most stable price trajectory of any EV brand —
+neither declining sharply nor showing the volatility of Skoda Enyaq
+or Hyundai Ioniq 5. Combined with the correlation findings, this
+supports the interpretation that Tesla's asking prices are managed
+differently — whether through centralized pricing strategy, stronger
+brand loyalty among sellers, or a combination of both.
+
+---
+
+# The Musk/Trump question
+
+## Hypothesis and operationalisation
+
+Tesla's compressed volume surge occurred in October–November 2024 —
+a period that coincides with Trump's election victory on November 5,
+2024. This raises a testable question: did Tesla's market behavior
+show brand-specific sensitivity to the political events associated
+with Elon Musk and Donald Trump?
+
+We operationalise this as a volatility hypothesis: *Tesla's weekly
+asking-price IQR increased in the weeks surrounding the three
+political events, relative to (a) Tesla's own pre-event baseline
+and (b) VW ID and Hyundai Ioniq 5 in the same weeks.*
+
+Price volatility — measured as the weekly interquartile range of
+retail asking prices — is used rather than median price, as it
+captures market uncertainty and heterogeneity more directly than
+central tendency.
+
+## Volatility over time
+```{r}
+include_graphics("output/09_volatility_iqr.png")
+```
+
+Tesla's IQR is elevated in the early period and declines gradually
+through 2025. VW ID's IQR increases substantially over the same
+period — reflecting the growing heterogeneity of a market with
+increasing volumes and a wider range of model variants and conditions.
+Hyundai Ioniq 5 remains consistently lower, consistent with its
+narrower volume base.
+
+## Event windows
+```{r}
+include_graphics("output/10_event_volatility_musk_backs_trump.png")
+```
+
+In the ±4-week window around Musk's Trump endorsement (July 13,
+2024), Tesla and Hyundai Ioniq 5 both show near-zero IQR on the
+event week itself. This should be interpreted with caution: Tesla
+averaged fewer than 10 listings per week in July 2024, meaning
+IQR estimates are highly sensitive to individual listings and do
+not constitute reliable signal.
+```{r}
+include_graphics("output/10_event_volatility_trump_elected.png")
+```
+
+The election window is the most informative of the three. Tesla and
+VW ID move in parallel through October, both peaking in the week
+of the election. After the election, the two brands diverge: VW ID's
+IQR remains elevated through November and December, while Tesla's
+declines back to pre-election levels. This asymmetric post-election
+pattern is consistent with the interpretation that VW ID's market
+faced greater ongoing uncertainty — plausibly reflecting concerns
+about trade policy and European automotive exposure — while Tesla's
+market normalised more rapidly.
+
+This divergence is the closest the data come to supporting the
+brand-specific hypothesis, but it falls short of confirmation.
+The pattern could equally reflect seasonal dynamics, model mix
+changes, or the natural stabilisation of Tesla's market following
+its compressed growth phase.
+```{r}
+include_graphics("output/10_event_volatility_trump_inaugurated.png")
+```
+
+Around the inauguration (January 20, 2025), Tesla's IQR declines
+consistently while VW ID rises modestly. Hyundai Ioniq 5 shows a
+spike immediately before the event date followed by a sharp drop —
+a pattern likely driven by low volume rather than market signal.
+No clear Tesla-specific response is visible here.
+
+## Assessment
+
+Across the three events, the volatility data do not provide
+consistent support for the hypothesis that Tesla's asking-price
+behavior was distinctively sensitive to Musk/Trump-associated events.
+The election window shows the most interesting divergence, but with
+only 9 weekly observations per brand in each event window and
+several plausible confounding explanations, the evidence is
+suggestive rather than conclusive.
+
+The more robust finding from the volume analysis — Tesla's compressed
+structural shift in October–November 2024 coinciding with the
+election period — remains the stronger signal. But coincidence in
+timing is not mechanism, and listing data alone cannot resolve
+whether the surge was driven by sentiment, supply dynamics, or
+factors unrelated to the political context.
+
+---
+
+# Final takeaway
+
+Tesla's behavior in the Danish used car market during 2024–2026
+is analytically distinct from its peers across multiple dimensions:
+a compressed structural volume shift, stable asking prices under
+supply pressure, and a near-zero price-volume correlation that stands
+alone among the brands examined.
+
+What this pattern does not tell us is *why*. Centralized pricing
+strategy, brand loyalty among sellers, or genuine market sentiment
+around the Tesla brand are all consistent with the data. Causal
+attribution requires a credible identification strategy that listing
+data cannot provide.
+
+What the data can establish is that the pattern is real, measurable,
+and consistent across methods. That is the appropriate scope of this
+analysis — and it is sufficient to make the finding worth reporting.
+
+> *The pattern is visible and robust. The mechanism remains an open
+> question — and an honest one.*
+
+---
+
+# Appendix
+
+## Weekly median retail prices — unsmoothed
+
+The chart below shows raw weekly median asking prices for all four
+EV brands, without smoothing. Each panel uses a brand-specific
+y-axis scale to highlight within-brand price movements rather than
+cross-brand level differences.
+```{r}
+include_graphics("output/11_appendix_raw_price.png")
+```
+
+## Segmented regression results
+```{r}
+#| tbl-cap: "Segmented regression summary — two breakpoints per brand"
+
+bp_table <- tibble(
+  Brand = c("Tesla", "VW ID", "Skoda Enyaq", "Hyundai Ioniq 5"),
+  `BP 1 (weeks)` = c("14.9", "37.9", "36.5", "37.9"),
+  `BP 1 CI` = c("[12–17.8]", "[32.9–42.9]", "[29.8–43.1]", "[35.2–40.6]"),
+  `BP 2 (weeks)` = c("19.7", "72", "67.2", "42.3"),
+  `BP 2 CI` = c("[17–22.4]", "[41.6–102.4]", "[59.4–75]", "[38.7–46]"),
+  `R²` = c(0.74, 0.88, 0.82, 0.54),
+  `RSE` = c(889, 247, 216, 181)
+)
+
+kable(bp_table, align = "lcccccc") |>
+  kable_styling(bootstrap_options = c("striped", "hover"),
+                full_width = FALSE) |>
+  footnote(general = "Week numbers are relative to July 1, 2024.
+           VW ID BP 2 CI extends to analysis boundary — interpret with caution.
+           Hyundai Ioniq 5 R² = 0.54 reflects low and irregular weekly volumes.")
+```
+
+## Method notes
+
+**Data source:** `imposing-yen-426717-u4.bilinfo.staging_bilinfo_single`
+via TrackSights BigQuery infrastructure. Listing creation date
+(`CreatedDate`) used as time axis throughout.
+
+**Asking prices only.** All price figures reflect retail asking
+prices — what sellers list on Bilbasen. Transaction prices are not
+available in this dataset. Asking prices are a proxy for market
+signals, not a record of what buyers paid.
+
+**Flow, not stock.** Weekly counts reflect new listings entering the
+market, not total inventory. A spike in weekly flow means more
+sellers listed that week — not necessarily that more cars were
+available overall.
+
+**Holiday exclusion.** December 20 – January 5 excluded in both
+2024/25 and 2025/26 due to anomalously low and unrepresentative
+listing activity.
+
+**Anomaly exclusion.** Week of August 24, 2025 excluded from Tesla
+segment (1,296 listings vs. median 120) — consistent with a batch
+import rather than organic market activity.
+
+**LOESS bandwidth.** span = 0.3 throughout. Sensitivity analysis
+confirms conclusions are robust to span = 0.2 and 0.5.
+
+**Segmented regression.** `segmented` package, R. Two breakpoints
+per brand. Confidence intervals via `confint()`. Start values
+psi = c(15, 40).
+
+**Correlation.** Pearson r and Spearman ρ reported in parallel.
+p-values based on two-sided t-test (Pearson) and asymptotic
+approximation (Spearman).
