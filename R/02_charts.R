@@ -442,7 +442,7 @@ save_chart("08_price_loess.png")
 event_window_weeks <- 4
 
 volatility_data <- weekly_price |>
-  dplyr::filter(segment %in% c("Tesla", "VW ID", "Hyundai Ioniq 5")) |>
+  dplyr::filter(segment %in% c("Tesla", "VW ID", "Skoda Enyaq")) |>
   dplyr::select(week, segment, iqr_price, median_price)
 
 ggplot(volatility_data, aes(x = week, y = iqr_price, color = segment)) +
