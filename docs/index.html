@@ -8,294 +8,78 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
-    --navy:        #0f1f4e;
-    --navy-mid:    #1a3170;
-    --violet:      #5b2de8;
-    --violet-pale: #ede9fd;
-    --warm-bg:     #faf8f3;
-    --cream:       #f5f0e8;
-    --white:       #ffffff;
-    --text:        #1a1a2e;
-    --text-mid:    #3d4060;
-    --text-muted:  #7a7d9a;
-    --border:      #e4e2f0;
-
-    --tesla:    #6BE7C2;
-    --vwid:     #8BC34A;
-    --hyundai:  #FFA040;
-    --skoda:    #00B0F6;
-    --byd:      #E76BF3;
-    --electric: #FFDD57;
-    --fossil:   #FF6B6B;
-    --total:    #00c0c7;
+    --navy:#0f1f4e; --navy-mid:#1a3170; --violet:#5b2de8; --violet-pale:#ede9fd;
+    --warm-bg:#faf8f3; --cream:#f5f0e8; --white:#ffffff;
+    --text:#1a1a2e; --text-mid:#3d4060; --text-muted:#7a7d9a; --border:#e4e2f0;
+    --tesla:#FF6B35; --vwid:#8BC34A; --hyundai:#FFA040;
+    --skoda:#00B0F6; --byd:#E76BF3; --electric:#6BE7C2; --fossil:#FF6B6B; --total:#00c0c7;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; scroll-behavior: smooth; }
-  body {
-    background: var(--warm-bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* HEADER */
-  .site-header {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 0.85rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  }
-  .ts-logo img { height: 26px; display: block; }
-  .header-right { display: flex; align-items: center; gap: 1rem; }
-  .header-tag {
-    background: var(--violet-pale);
-    color: var(--violet);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.25rem 0.7rem;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .header-link {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .header-link:hover { color: var(--navy); }
-
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, #0a1535 0%, #1a2f6e 55%, #2a3f8a 100%);
-    color: white;
-    padding: 5rem 2rem 4.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-bg-pattern {
-    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
-    background-image: url('https://assets.ycodeapp.com/assets/app80364/Icons/background_pattern_blue-eyrnuiyqd4.svg');
-    background-size: 400px;
-    background-position: right top;
-    opacity: 0.15;
-    pointer-events: none;
-  }
-  .hero-glow {
-    position: absolute; top: -20%; right: 5%;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(91,45,232,0.3) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero-inner { max-width: 800px; margin: 0 auto; position: relative; }
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(91,45,232,0.25);
-    border: 1px solid rgba(91,45,232,0.45);
-    color: #c4b5fd;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.9rem;
-    border-radius: 20px;
-    margin-bottom: 1.5rem;
-  }
-  .hero h1 {
-    font-size: clamp(2rem, 4.5vw, 3.2rem);
-    font-weight: 700;
-    line-height: 1.12;
-    letter-spacing: -0.035em;
-    margin-bottom: 1.25rem;
-  }
-  .hero h1 em { color: #a78bfa; font-style: normal; }
-  .hero-lead {
-    font-size: 1.05rem;
-    color: rgba(255,255,255,0.72);
-    max-width: 600px;
-    line-height: 1.75;
-    margin-bottom: 1rem;
-  }
-  .hero-context {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.55);
-    max-width: 600px;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-    font-style: italic;
-  }
-  .hero-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-  .pill {
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.18);
-    color: rgba(255,255,255,0.78);
-    font-size: 0.73rem;
-    padding: 0.28rem 0.75rem;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  /* MAIN */
-  .main { max-width: 860px; margin: 0 auto; padding: 0 2rem 5rem; }
-
-  /* SECTION HEADERS */
-  .section-head { padding: 2.5rem 0 1.25rem; }
-  .section-head h2 {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--violet);
-  }
-
-  /* CARDS */
-  .card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-    margin-bottom: 1.25rem;
-  }
-  .card-eyebrow {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--violet);
-    margin-bottom: 0.5rem;
-  }
-  .card h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--navy);
-    letter-spacing: -0.025em;
-    margin-bottom: 1rem;
-    line-height: 1.3;
-  }
-  .card p {
-    font-size: 0.91rem;
-    color: var(--text-mid);
-    margin-bottom: 0.85rem;
-    line-height: 1.72;
-  }
-  .card p:last-of-type { margin-bottom: 0; }
-  .card p strong { color: var(--navy); font-weight: 600; }
-
-  /* HIGHLIGHT */
-  .highlight {
-    background: var(--violet-pale);
-    border-left: 3px solid var(--violet);
-    border-radius: 0 12px 12px 0;
-    padding: 1.2rem 1.5rem;
-    margin: 1.5rem 0;
-  }
-  .highlight p {
-    font-size: 0.93rem;
-    font-weight: 500;
-    color: var(--navy);
-    line-height: 1.65;
-    margin: 0;
-  }
-
-  /* INFO BOX */
-  .info-box {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.1rem 1.4rem;
-    margin: 1.25rem 0;
-    display: flex;
-    gap: 0.9rem;
-    align-items: flex-start;
-  }
-  .info-icon {
-    background: var(--navy);
-    color: white;
-    border-radius: 7px;
-    width: 26px; height: 26px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.72rem; font-weight: 700;
-    flex-shrink: 0; margin-top: 1px;
-  }
-  .info-box p { font-size: 0.82rem; color: var(--text-mid); margin: 0; line-height: 1.65; }
-  .info-box strong { color: var(--navy); }
-
-  /* CHART CARDS */
-  .chart-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.6rem;
-    margin-bottom: 1.25rem;
-  }
-  .chart-title { font-size: 0.92rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
-  .chart-note { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-  .chart-wrap canvas { max-height: 300px; }
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem;
-    margin-top: 1rem; padding-top: 0.9rem;
-    border-top: 1px solid var(--border);
-  }
-  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; color: var(--text-mid); font-weight: 500; }
-  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-
-  /* TWO COL */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
-  @media(max-width:600px){ .two-col { grid-template-columns: 1fr; } }
-
-  /* TABLE */
-  .table-wrap { overflow-x: auto; margin-top: 1.25rem; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-  th {
-    text-align: right; padding: 0.55rem 0.7rem;
-    font-size: 0.67rem; font-weight: 700;
-    letter-spacing: 0.07em; text-transform: uppercase;
-    color: var(--text-muted); border-bottom: 2px solid var(--navy);
-  }
-  th:first-child { text-align: left; }
-  td {
-    padding: 0.6rem 0.7rem; text-align: right;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-mid); font-variant-numeric: tabular-nums;
-  }
-  td:first-child { text-align: left; font-weight: 600; color: var(--navy); }
-  tr:last-child td { border-bottom: none; }
-  .neg { color: #2d8a4e; font-weight: 600; }
-  .neutral { color: var(--text-muted); }
-  .table-note { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.75rem; font-style: italic; }
-
-  /* METHOD */
-  .method-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 1.25rem; }
-  @media(max-width:560px){ .method-rows { grid-template-columns: 1fr; } }
-  .method-row { display: flex; gap: 0.7rem; padding: 0.65rem 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
-  .method-row:nth-child(odd) { padding-right: 1.5rem; }
-  .mk { font-weight: 600; color: var(--navy); min-width: 100px; flex-shrink: 0; }
-  .mv { color: var(--text-mid); }
-
-  /* EVENT MARKERS on charts — shown as annotations */
-  .event-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 1rem; }
-  .event-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--text-mid); }
-  .event-table td:first-child { font-weight: 600; color: var(--navy); }
-  .arrow-up { color: #2d8a4e; font-weight: 700; }
-  .arrow-down { color: #c0392b; font-weight: 700; }
-
-  /* FOOTER */
-  footer { background: var(--navy); padding: 3rem 2rem; text-align: center; }
-  footer img { height: 22px; display: block; margin: 0 auto 1.25rem; }
-  footer p { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.9; }
-  footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
-  footer a:hover { color: rgba(255,255,255,0.7); }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{background:var(--warm-bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:400;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  .site-header{background:var(--white);border-bottom:1px solid var(--border);padding:0.85rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+  .ts-logo img{height:26px;display:block;}
+  .header-right{display:flex;align-items:center;gap:1rem;}
+  .header-tag{background:var(--violet-pale);color:var(--violet);font-size:0.7rem;font-weight:600;padding:0.25rem 0.7rem;border-radius:20px;letter-spacing:0.04em;text-transform:uppercase;}
+  .header-link{font-size:0.82rem;color:var(--text-muted);text-decoration:none;font-weight:500;}
+  .header-link:hover{color:var(--navy);}
+  .hero{background:linear-gradient(135deg,#0a1535 0%,#1a2f6e 55%,#2a3f8a 100%);color:white;padding:5rem 2rem 4.5rem;position:relative;overflow:hidden;}
+  .hero-bg-pattern{position:absolute;top:0;right:0;bottom:0;left:0;background-image:url('https://assets.ycodeapp.com/assets/app80364/Icons/background_pattern_blue-eyrnuiyqd4.svg');background-size:400px;background-position:right top;opacity:0.15;pointer-events:none;}
+  .hero-glow{position:absolute;top:-20%;right:5%;width:500px;height:500px;background:radial-gradient(circle,rgba(91,45,232,0.3) 0%,transparent 65%);pointer-events:none;}
+  .hero-inner{max-width:800px;margin:0 auto;position:relative;}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(91,45,232,0.25);border:1px solid rgba(91,45,232,0.45);color:#c4b5fd;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:20px;margin-bottom:1.5rem;}
+  .hero h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:700;line-height:1.12;letter-spacing:-0.035em;margin-bottom:1.25rem;}
+  .hero h1 em{color:#a78bfa;font-style:normal;}
+  .hero-lead{font-size:1.05rem;color:rgba(255,255,255,0.72);max-width:600px;line-height:1.75;margin-bottom:1rem;}
+  .hero-context{font-size:0.88rem;color:rgba(255,255,255,0.55);max-width:600px;line-height:1.7;margin-bottom:2.5rem;font-style:italic;}
+  .hero-pills{display:flex;flex-wrap:wrap;gap:0.45rem;}
+  .pill{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.78);font-size:0.73rem;padding:0.28rem 0.75rem;border-radius:20px;font-weight:500;}
+  .main{max-width:860px;margin:0 auto;padding:0 2rem 5rem;}
+  .section-head{padding:2.5rem 0 1.25rem;}
+  .section-head h2{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--violet);}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:1.25rem;}
+  .card-eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--violet);margin-bottom:0.5rem;}
+  .card h3{font-size:1.2rem;font-weight:700;color:var(--navy);letter-spacing:-0.025em;margin-bottom:1rem;line-height:1.3;}
+  .card p{font-size:0.91rem;color:var(--text-mid);margin-bottom:0.85rem;line-height:1.72;}
+  .card p:last-of-type{margin-bottom:0;}
+  .card p strong{color:var(--navy);font-weight:600;}
+  .highlight{background:var(--violet-pale);border-left:3px solid var(--violet);border-radius:0 12px 12px 0;padding:1.2rem 1.5rem;margin:1.5rem 0;}
+  .highlight p{font-size:0.93rem;font-weight:500;color:var(--navy);line-height:1.65;margin:0;}
+  .info-box{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.4rem;margin:1.25rem 0;display:flex;gap:0.9rem;align-items:flex-start;}
+  .info-icon{background:var(--navy);color:white;border-radius:7px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+  .info-box p{font-size:0.82rem;color:var(--text-mid);margin:0;line-height:1.65;}
+  .info-box strong{color:var(--navy);}
+  .chart-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.6rem;margin-bottom:1.25rem;}
+  .chart-title{font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.2rem;}
+  .chart-note{font-size:0.72rem;color:var(--text-muted);margin-bottom:1.25rem;}
+  .chart-wrap canvas{max-height:300px;}
+  .chart-wrap-tall canvas{max-height:380px;}
+  .legend{display:flex;flex-wrap:wrap;gap:0.6rem 1.2rem;margin-top:1rem;padding-top:0.9rem;border-top:1px solid var(--border);}
+  .legend-item{display:flex;align-items:center;gap:0.4rem;font-size:0.76rem;color:var(--text-mid);font-weight:500;}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+  .table-wrap{overflow-x:auto;margin-top:1.25rem;}
+  table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+  th{text-align:right;padding:0.55rem 0.7rem;font-size:0.67rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);border-bottom:2px solid var(--navy);}
+  th:first-child{text-align:left;}
+  td{padding:0.6rem 0.7rem;text-align:right;border-bottom:1px solid var(--border);color:var(--text-mid);font-variant-numeric:tabular-nums;}
+  td:first-child{text-align:left;font-weight:600;color:var(--navy);}
+  tr:last-child td{border-bottom:none;}
+  .table-note{font-size:0.72rem;color:var(--text-muted);margin-top:0.75rem;font-style:italic;}
+  .arrow-up{color:#2d8a4e;font-weight:700;}
+  .arrow-down{color:#c0392b;font-weight:700;}
+  .method-rows{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:1.25rem;}
+  @media(max-width:560px){.method-rows{grid-template-columns:1fr;}}
+  .method-row{display:flex;gap:0.7rem;padding:0.65rem 0;border-bottom:1px solid var(--border);font-size:0.8rem;}
+  .method-row:nth-child(odd){padding-right:1.5rem;}
+  .mk{font-weight:600;color:var(--navy);min-width:100px;flex-shrink:0;}
+  .mv{color:var(--text-mid);}
+  footer{background:var(--navy);padding:3rem 2rem;text-align:center;}
+  footer img{height:22px;display:block;margin:0 auto 1.25rem;}
+  footer p{font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.9;}
+  footer a{color:rgba(255,255,255,0.45);text-decoration:none;}
+  footer a:hover{color:rgba(255,255,255,0.7);}
 </style>
 </head>
 <body>
@@ -316,8 +100,8 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">DK Used Car Market · 2024–2026</div>
     <h1>Tesla in the Danish<br><em>used car market</em></h1>
-    <p class="hero-lead">How did Tesla's listing volume and pricing dynamics diverge from peer brands — and can any divergence be linked to the political events associated with Elon Musk and Donald Trump?</p>
-    <p class="hero-context">Based on weekly listing data from Bilbasen, Denmark's primary used car marketplace, via TrackSights. All prices reflect asking prices — what sellers list, not what buyers paid.</p>
+    <p class="hero-lead">Did Tesla's listing volume and pricing dynamics diverge from peer brands — and can any divergence be linked to the political events associated with Elon Musk and Donald Trump?</p>
+    <p class="hero-context">Based on used car marketplace listings via TrackSights. All prices reflect asking prices — what sellers list, not what buyers paid.</p>
     <div class="hero-pills">
       <span class="pill">Dealer listings · DK</span>
       <span class="pill">Jul 2024 – Apr 2026</span>
@@ -329,42 +113,27 @@
 
 <div class="main">
 
-  <!-- EXECUTIVE SUMMARY -->
   <div class="section-head"><h2>Executive Summary</h2></div>
-
   <div class="card">
     <div class="card-eyebrow">A market that moved — and a brand that moved differently</div>
     <h3>Tesla stood apart across multiple dimensions</h3>
     <p>The Danish used car market expanded substantially from mid-2024 onward, with weekly listing volumes roughly doubling across all segments by early 2025. Electric vehicles led the expansion in relative terms.</p>
-
-    <div class="highlight">
-      <p><strong>Compressed structural shift.</strong> Tesla's listing volume underwent a rapid, concentrated transition in October–November 2024 — both structural breakpoints falling within approximately five weeks of each other. Peer brands showed more gradual transitions spanning months.</p>
-    </div>
-
-    <div class="highlight">
-      <p><strong>Price stability under volume pressure.</strong> All brands except Tesla showed negative correlations between weekly listing volume and median asking price (meaning prices fell as more listings entered the market). Tesla showed no meaningful price response to volume changes.</p>
-    </div>
-
-    <div class="highlight">
-      <p><strong>The Musk/Trump question.</strong> H2 2024 was a Tesla-specific period of elevated price disagreement among sellers — not seen in VW ID or Skoda Enyaq in the same window. The pattern is consistent with the period in which Elon Musk became an increasingly prominent political figure. The explanation remains open.</p>
-    </div>
-
+    <div class="highlight"><p><strong>Compressed structural shift.</strong> Tesla's listing volume underwent a rapid, concentrated transition in October–November 2024 — both structural breakpoints falling within approximately five weeks of each other. Peer brands showed more gradual transitions spanning months.</p></div>
+    <div class="highlight"><p><strong>Price stability under volume pressure.</strong> All brands except Tesla showed negative correlations between weekly listing volume and median asking price — meaning prices fell as more listings entered the market. Tesla showed no meaningful price response to volume changes.</p></div>
+    <div class="highlight"><p><strong>The Musk/Trump question.</strong> H2 2024 was a Tesla-specific period of elevated price disagreement among sellers — not seen in VW ID or Skoda Enyaq in the same window. The pattern is consistent with the period in which Elon Musk became an increasingly prominent political figure. The explanation remains open.</p></div>
     <div class="info-box">
       <div class="info-icon">i</div>
-      <p><strong>What this analysis measures:</strong> New listings created by dealers each week (flow, not stock inventory). These are <strong>asking prices</strong> — not transaction prices. Weekly counts reflect new listings entering the market, not total inventory.</p>
+      <p><strong>What this analysis measures:</strong> New listings created by dealers each week (flow, not stock inventory). These are <strong>asking prices</strong> — not transaction prices. Weekly counts reflect new listings entering the market, not total inventory. Dealer listings only — private sellers typically price less systematically (noise).</p>
     </div>
   </div>
 
-  <!-- MARKET CONTEXT -->
   <div class="section-head"><h2>Market context</h2></div>
-
   <div class="card">
     <div class="card-eyebrow">The broader market</div>
     <h3>Total market expansion — Electric vehicles led in relative terms</h3>
     <p>Weekly listing volumes roughly doubled across all segments between July 2024 and early 2025. Two factors likely contributed: the maturation of leasing contracts signed during the 2021–2022 EV boom returning vehicles to the used market, and Tesla's repeated new-car price reductions putting pressure on existing owners to sell. How much each factor contributed cannot be determined from listing data alone.</p>
-    <p>The market-wide expansion provides necessary context for the brand analysis that follows: Tesla's volume growth did not occur in a vacuum.</p>
+    <p>The market-wide expansion provides necessary context for the brand analysis that follows: Tesla's structural shift did not occur in a vacuum.</p>
   </div>
-
   <div class="chart-card">
     <div class="chart-title">Weekly listing volume — Market overview</div>
     <div class="chart-note">Total vs Electric vs Fossil · LOESS smoothed (span = 0.3) · Retail only · Asking prices</div>
@@ -376,16 +145,13 @@
     </div>
   </div>
 
-  <!-- BRAND DYNAMICS -->
   <div class="section-head"><h2>Brand dynamics — volume</h2></div>
-
   <div class="card">
     <div class="card-eyebrow">Brand comparison</div>
-    <h3>VW ID dominates — Tesla and Skoda Enyaq track closely</h3>
-    <p>VW ID dominates in volume throughout the period — roughly three times the weekly listings of Tesla and Skoda Enyaq, which track each other closely. BYD and Hyundai Ioniq 5 operate at volumes too low to draw conclusions from their curve shapes.</p>
+    <h3>VW ID leads in volume — Tesla and Skoda Enyaq track closely</h3>
+    <p>VW ID leads in volume throughout the period — roughly three times the weekly listings of Tesla and Skoda Enyaq, which track each other closely. BYD and Hyundai Ioniq 5 operate at volumes too low to draw conclusions from their curve shapes.</p>
     <p>All three larger brands show a similar broad pattern: growth through autumn 2024, a pause around the turn of the year, renewed growth into early 2025, and a gradual settling thereafter. The December pause is consistent with seasonal listing behaviour rather than a response to any specific event. VW ID's growth curve starts earlier and is steeper, but the overall shape is shared across brands. Tesla is not meaningfully different from Skoda Enyaq in either timing or trajectory at this level of analysis.</p>
   </div>
-
   <div class="chart-card">
     <div class="chart-title">Weekly listing volume — Brand comparison</div>
     <div class="chart-note">Tesla vs peers · LOESS smoothed (span = 0.3) · Retail only · Asking prices</div>
@@ -399,40 +165,72 @@
     </div>
   </div>
 
-  <!-- STRUCTURAL SHIFTS -->
   <div class="section-head"><h2>Structural shifts</h2></div>
-
   <div class="card">
     <div class="card-eyebrow">Breakpoint analysis</div>
     <h3>How brands shifted — compressed vs. gradual</h3>
-    <p>While section above shows that brands follow a similar broad shape, the <em>speed</em> of structural transition differs markedly. Segmented regression with two breakpoints reveals where each brand's rate of growth changed structurally — and how quickly that transition happened.</p>
-    <p><strong>Tesla's two breakpoints</strong> cluster tightly in October–November 2024 (weeks 15 and 20 from July 2024). The market shifted rapidly from low to high listing activity, then stabilised. A confidence interval (CI) reflects the range of plausible values for the breakpoint — a narrow band means precisely estimated; a wide band means uncertain timing.</p>
-    <p><strong>Hyundai Ioniq 5</strong> similarly shows a compressed transition, but later — in March–April 2025 (weeks 38 and 42). <strong>Skoda Enyaq</strong> spans the longest interval between breakpoints, reflecting a more gradual market cycle. <strong>VW ID's</strong> second breakpoint extends toward the analysis boundary with a correspondingly wide confidence interval — genuine uncertainty about whether the observed flattening is structural or short-term.</p>
+    <p>While the volume chart above shows that brands follow a similar broad shape, the <em>speed</em> of structural transition differs markedly. Segmented regression with two breakpoints reveals where each brand's rate of growth changed structurally — and how quickly that transition happened.</p>
+    <p>A confidence interval (CI) reflects the range of plausible values for the breakpoint — a narrow band means the timing is estimated precisely; a wide band means it could plausibly have occurred across a broader window. R² measures how well the model tracks the actual weekly data — closer to 1 means a tighter fit.</p>
+    <p><strong>Tesla's two breakpoints</strong> cluster tightly in October–November 2024 (weeks 15 and 20 from July 2024) — the market shifted rapidly from low to high listing activity, then stabilised. <strong>Hyundai Ioniq 5</strong> also shows a compressed transition, but later — March–April 2025. <strong>Skoda Enyaq</strong> spans the longest interval, reflecting a gradual cycle. <strong>VW ID's</strong> second breakpoint extends toward the analysis boundary with a wide CI.</p>
+  </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Brand</th>
-            <th>BP 1</th>
-            <th>BP 1 CI</th>
-            <th>BP 2</th>
-            <th>BP 2 CI</th>
-            <th>R²</th>
-            <th>RSE</th>
-          </tr>
-        </thead>
-        <tbody id="bp_table_body">
-          <tr><td colspan="7" style="color:var(--text-muted);font-style:italic">Loading...</td></tr>
-        </tbody>
-      </table>
-      <p class="table-note">Week numbers relative to July 1, 2024. Week 15 = mid-October 2024; week 20 = mid-November 2024; week 38 = mid-March 2025. R² = share of week-to-week variation explained by the model (0–1). VW ID BP 2 CI extends to analysis boundary — interpret with caution.</p>
+  <div class="two-col">
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="chart-title">Segmented trend — Tesla</div>
+      <div class="chart-note">Volume index (week 1 = 100) · Two breakpoints · 95% CI as shaded band</div>
+      <div class="chart-wrap-tall"><canvas id="chart_seg_tesla"></canvas></div>
+    </div>
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="chart-title">Segmented trend — VW ID</div>
+      <div class="chart-note">Volume index (week 1 = 100) · Two breakpoints · 95% CI as shaded band</div>
+      <div class="chart-wrap-tall"><canvas id="chart_seg_vwid"></canvas></div>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="chart-title">Segmented trend — Skoda Enyaq</div>
+      <div class="chart-note">Volume index (week 1 = 100) · Two breakpoints · 95% CI as shaded band</div>
+      <div class="chart-wrap-tall"><canvas id="chart_seg_skoda"></canvas></div>
+    </div>
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="chart-title">Segmented trend — Hyundai Ioniq 5</div>
+      <div class="chart-note">Volume index (week 1 = 100) · Two breakpoints · 95% CI as shaded band</div>
+      <div class="chart-wrap-tall"><canvas id="chart_seg_hyundai"></canvas></div>
+    </div>
+  </div>
+  <div style="margin-bottom:1.25rem"></div>
+
+  <div class="chart-card">
+    <div class="chart-title">Timing of structural shifts — brand comparison</div>
+    <div class="chart-note">Segmented regression breakpoints with 95% CI · Week numbers relative to July 1, 2024</div>
+    <div class="chart-wrap"><canvas id="chart_bp_timing"></canvas></div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--tesla)"></div>Tesla</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--vwid)"></div>VW ID</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--skoda)"></div>Skoda Enyaq</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hyundai)"></div>Hyundai Ioniq 5</div>
     </div>
   </div>
 
-  <!-- PRICE DYNAMICS -->
-  <div class="section-head"><h2>Price dynamics</h2></div>
+  <div class="card">
+    <div class="card-eyebrow">Breakpoint summary</div>
+    <h3>Regression results</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Brand</th><th>BP 1 (wk)</th><th>BP 1 CI</th><th>BP 2 (wk)</th><th>BP 2 CI</th><th>R²</th><th>RSE</th></tr></thead>
+        <tbody id="bp_table_body"><tr><td colspan="7" style="color:var(--text-muted);font-style:italic">Loading...</td></tr></tbody>
+      </table>
+      <p class="table-note">Week numbers relative to July 1, 2024. Week 15 = mid-October 2024; week 20 = mid-November 2024; week 38 = mid-March 2025. R² = how well the model tracks the actual weekly data (closer to 1 = tighter fit). VW ID BP 2 CI extends to analysis boundary — interpret with caution.</p>
+    </div>
+    <p style="font-size:0.91rem;color:var(--text-mid);line-height:1.72;margin-top:1.25rem">The R² and RSE values reflect how cleanly each brand's transition was. Tesla shows a relatively low R² and high RSE — the structural shift was rapid and real, but week-to-week listing volumes were volatile around it. VW ID shows a higher R² and lower RSE — a smoother, more gradual and predictable growth trajectory. Hyundai Ioniq 5's low R² reflects irregular weekly volumes rather than an unclear structural shift.</p>
+  </div>
 
+  <div class="section-head"><h2>Price dynamics</h2></div>
+  <div class="card">
+    <div class="card-eyebrow">Overview</div>
+    <h3>Three lenses on the same question: does supply drive price?</h3>
+    <p>The three charts below approach the same question from different angles. The correlation chart shows the statistical relationship between weekly listing volume and median price per brand. The scatter plot makes that relationship visible at the individual week level. The LOESS price chart shows how median asking prices evolved over time. Together they point to the same finding: Tesla's asking prices behave differently from every other brand in this analysis.</p>
+  </div>
   <div class="card">
     <div class="card-eyebrow">Volume–price correlation</div>
     <h3>Tesla is the only brand where prices do not fall as supply increases</h3>
@@ -452,6 +250,18 @@
   </div>
 
   <div class="chart-card">
+    <div class="chart-title">Volume vs. median retail price</div>
+    <div class="chart-note">Each point = one week · Linear trend per brand · Asking prices only</div>
+    <div class="chart-wrap"><canvas id="chart_scatter"></canvas></div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--tesla)"></div>Tesla</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--vwid)"></div>VW ID</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--skoda)"></div>Skoda Enyaq</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hyundai)"></div>Hyundai Ioniq 5</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
     <div class="chart-title">LOESS-smoothed median retail price</div>
     <div class="chart-note">Weekly asking prices by brand · span = 0.3 · Not transaction prices</div>
     <div class="chart-wrap"><canvas id="chart_price_loess"></canvas></div>
@@ -464,14 +274,11 @@
     </div>
   </div>
 
-  <!-- MUSK/TRUMP -->
   <div class="section-head"><h2>The Musk/Trump question</h2></div>
-
   <div class="card">
     <div class="card-eyebrow">Hypothesis</div>
     <h3>Did Tesla's market show signs of unusual instability around the political events?</h3>
-    <p>Tesla's compressed volume surge occurred in October–November 2024 — coinciding with Trump's election victory on November 5, 2024. We look at price volatility — specifically how widely asking prices were spread from week to week — as a proxy for market uncertainty. The IQR (interquartile range) is the distance between the 25th and 75th percentile of prices in a given week: a wide IQR means prices were spread across a large range; a narrow IQR means most listings were priced similarly.</p>
-    <p>A calm market has sellers pricing similarly. An uncertain market has sellers pricing across a wide range.</p>
+    <p>Tesla's compressed volume surge occurred in October–November 2024 — coinciding with Trump's election victory on November 5, 2024. We look at price volatility — specifically how widely asking prices were spread from week to week — as a proxy for market uncertainty. The IQR (interquartile range) is the distance between the 25th and 75th percentile of prices in a given week: a wide IQR means prices were spread across a large range; a narrow IQR means most listings were priced similarly. A calm market has sellers pricing similarly. An uncertain market has sellers pricing across a wide range.</p>
   </div>
 
   <div class="card">
@@ -493,67 +300,50 @@
     </div>
   </div>
 
+  <div class="chart-card">
+    <div class="chart-title">Weekly median retail price — unsmoothed</div>
+    <div class="chart-note">Raw weekly medians · Asking prices only · Not transaction prices · Each brand on its own scale</div>
+    <div class="chart-wrap-tall"><canvas id="chart_raw_prices"></canvas></div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--tesla)"></div>Tesla</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--vwid)"></div>VW ID</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--skoda)"></div>Skoda Enyaq</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hyundai)"></div>Hyundai Ioniq 5</div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-eyebrow">Direction of movement around each event</div>
     <h3>Tesla moved in the opposite direction to VW ID in all three event windows</h3>
     <p>In each of the three event windows, Tesla's price spread moved in the opposite direction to VW ID:</p>
-
     <div class="table-wrap">
-      <table class="event-table">
-        <thead>
-          <tr>
-            <th style="text-align:left">Event</th>
-            <th>Date</th>
-            <th>Tesla IQR</th>
-            <th>VW ID IQR</th>
-          </tr>
-        </thead>
+      <table>
+        <thead><tr><th style="text-align:left">Event</th><th>Date</th><th>Tesla IQR</th><th>VW ID IQR</th></tr></thead>
         <tbody>
-          <tr>
-            <td>Musk backs Trump</td>
-            <td style="text-align:right">Jul 2024</td>
-            <td style="text-align:right" class="arrow-up">↑</td>
-            <td style="text-align:right" class="arrow-down">↓</td>
-          </tr>
-          <tr>
-            <td>Trump elected</td>
-            <td style="text-align:right">Nov 2024</td>
-            <td style="text-align:right" class="arrow-down">↓</td>
-            <td style="text-align:right" class="arrow-up">↑</td>
-          </tr>
-          <tr>
-            <td>Trump inaugurated</td>
-            <td style="text-align:right">Jan 2025</td>
-            <td style="text-align:right" class="arrow-down">↓</td>
-            <td style="text-align:right" class="arrow-up">↑</td>
-          </tr>
+          <tr><td>Musk backs Trump</td><td style="text-align:right">Jul 2024</td><td style="text-align:right" class="arrow-up">↑</td><td style="text-align:right" class="arrow-down">↓</td></tr>
+          <tr><td>Trump elected</td><td style="text-align:right">Nov 2024</td><td style="text-align:right" class="arrow-down">↓</td><td style="text-align:right" class="arrow-up">↑</td></tr>
+          <tr><td>Trump inaugurated</td><td style="text-align:right">Jan 2025</td><td style="text-align:right" class="arrow-down">↓</td><td style="text-align:right" class="arrow-up">↑</td></tr>
         </tbody>
       </table>
       <p class="table-note">Direction of change in weekly price spread (IQR) in the event week relative to the preceding four weeks. Hyundai Ioniq 5 excluded — weekly volumes too low for reliable signal. Descriptive only — no causal inference.</p>
     </div>
+    <p style="font-size:0.91rem;color:var(--text-mid);line-height:1.72;margin-top:1.25rem">Across all three events, Tesla and VW ID moved in opposite directions. Tesla's price spread was widest around Musk's Trump endorsement in July 2024 — the earliest signal — and narrowed at both the election and inauguration. One reading: the uncertainty peaked when Musk entered the political arena, and resolved gradually as the political outcome became clear. VW ID followed the opposite path — stable in July, wider at the election and inauguration — consistent with a market absorbing uncertainty about European trade exposure rather than brand-specific sentiment. The data cannot confirm either interpretation. But the divergence is consistent across all three windows and the two directions tell different stories.</p>
   </div>
 
   <div class="card">
     <div class="card-eyebrow">Assessment</div>
     <h3>A real and temporally structured pattern — mechanism remains open</h3>
-    <p>The volatility data point to H2 2024 as a Tesla-specific period of elevated price disagreement among sellers — a pattern not seen in VW ID or Skoda Enyaq in the same window, and one that resolved gradually through 2025.</p>
-    <p>This is the closest the data come to a Musk/Trump signal. The timing is consistent with Musk's entry into the political arena in July 2024 and the subsequent election period. But timing alone is not mechanism — the same pattern could reflect the dynamics of a rapidly expanding market. What the data establish is that Tesla behaved differently from its peers during this specific period across two independent measures. The pattern is real and temporally structured. The explanation remains open.</p>
+    <p>The volatility data point to H2 2024 as a Tesla-specific period of elevated price disagreement among sellers — a pattern not seen in VW ID or Skoda Enyaq in the same window, and one that resolved gradually through 2025. This is the closest the data come to a Musk/Trump signal. The timing is consistent with Musk's entry into the political arena in July 2024 and the subsequent election period. But timing alone is not mechanism — the same pattern could reflect the dynamics of a rapidly expanding market. What the data establish is that Tesla behaved differently from its peers during this specific period across two independent measures. The pattern is real and temporally structured. The explanation remains open.</p>
   </div>
 
-  <!-- FINAL TAKEAWAY -->
   <div class="section-head"><h2>Final takeaway</h2></div>
-
   <div class="card">
     <div class="card-eyebrow">Conclusion</div>
     <h3>The pattern is visible and robust. The mechanism remains an open question.</h3>
-    <p>Tesla's behavior in the Danish used car market during 2024–2026 is analytically distinct from its peers across multiple dimensions: a compressed structural volume shift, stable asking prices under supply pressure, and a near-zero price-volume correlation that stands alone among the brands examined.</p>
-    <p>What this pattern does not tell us is <em>why</em>. Pricing discipline among dealers, brand loyalty among sellers, or genuine market sentiment around the Tesla brand are all consistent with the data. Causal attribution requires a credible identification strategy that listing data cannot provide.</p>
-    <p>What the data can establish is that the pattern is real, measurable, and consistent across methods. That is the appropriate scope of this analysis — and it is sufficient to make the finding worth reporting.</p>
+    <p>Tesla's behavior in the Danish used car market during 2024–2026 is analytically distinct from its peers — and that distinction is real, measurable, and consistent across methods. That is the appropriate scope of this analysis.</p>
   </div>
 
-  <!-- METHODOLOGY -->
   <div class="section-head"><h2>Methodology</h2></div>
-
   <div class="card">
     <div class="card-eyebrow">Technical reference</div>
     <h3>How this analysis is produced</h3>
@@ -582,249 +372,355 @@
 </footer>
 
 <script>
-// =============================================================================
-// Chart configuration
-// =============================================================================
-
 const COLORS = {
-  tesla:    '#6BE7C2',
-  vwid:     '#8BC34A',
-  hyundai:  '#FFA040',
-  skoda:    '#00B0F6',
-  byd:      '#E76BF3',
-  electric: '#FFDD57',
-  fossil:   '#FF6B6B',
-  total:    '#00c0c7'
+  tesla:'#FF6B35', vwid:'#8BC34A', hyundai:'#FFA040',
+  skoda:'#00B0F6', byd:'#E76BF3', electric:'#6BE7C2',
+  fossil:'#FF6B6B', total:'#00c0c7'
 };
 
-const chartDefaults = {
-  responsive: true,
-  maintainAspectRatio: true,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: '#0f1f4e',
-      titleFont: { family: 'Inter', size: 11, weight: '600' },
-      bodyFont: { family: 'Inter', size: 11 },
-      padding: 10,
-      cornerRadius: 8,
-      callbacks: {
-        label: c => ` ${c.dataset.label}: ${Number(c.parsed.y).toLocaleString('da-DK')}`
-      }
+const BASE_OPTS = {
+  responsive:true, maintainAspectRatio:true,
+  plugins:{
+    legend:{display:false},
+    tooltip:{
+      backgroundColor:'#0f1f4e',
+      titleFont:{family:'Inter',size:11,weight:'600'},
+      bodyFont:{family:'Inter',size:11},
+      padding:10, cornerRadius:8,
+      callbacks:{label:c=>` ${c.dataset.label}: ${Number(c.parsed.y).toLocaleString('da-DK')}`}
     }
   },
-  scales: {
-    x: {
-      grid: { color: '#f0eef8' },
-      ticks: { font: { family: 'Inter', size: 10 }, color: '#7a7d9a', maxTicksLimit: 8 }
-    },
-    y: {
-      grid: { color: '#f0eef8' },
-      ticks: { font: { family: 'Inter', size: 10 }, color: '#7a7d9a',
-               callback: v => Number(v).toLocaleString('da-DK') }
-    }
+  scales:{
+    x:{grid:{color:'#f0eef8'},ticks:{font:{family:'Inter',size:10},color:'#7a7d9a',maxTicksLimit:8}},
+    y:{grid:{color:'#f0eef8'},ticks:{font:{family:'Inter',size:10},color:'#7a7d9a',callback:v=>Number(v).toLocaleString('da-DK')}}
   }
 };
 
-function lineDs(label, color, data) {
-  return {
-    label,
-    data,
-    borderColor: color,
-    backgroundColor: color + '18',
-    borderWidth: 2.5,
-    pointRadius: 0,
-    pointHoverRadius: 5,
-    pointBackgroundColor: '#fff',
-    pointBorderColor: color,
-    pointBorderWidth: 2,
-    tension: 0.3,
-    fill: false
-  };
+function line(label, color, data, width=2.5) {
+  return {label, data, borderColor:color, backgroundColor:color+'18',
+    borderWidth:width, pointRadius:0, pointHoverRadius:5,
+    pointBackgroundColor:'#fff', pointBorderColor:color,
+    pointBorderWidth:2, tension:0.3, fill:false};
 }
 
-// Event dates for vertical annotation
-const EVENT_DATES = {
-  'Musk backs Trump': '2024-07-14',
-  'Trump elected':    '2024-11-03',
-  'Trump inaugurated':'2025-01-19'
-};
+function getSmooth(data, seg, key='n_smooth') {
+  const arr = data[seg]||[];
+  return {labels:arr.map(d=>d.week), values:arr.map(d=>d[key])};
+}
 
-// =============================================================================
-// Data loading and chart rendering
-// =============================================================================
-
-async function loadJSON(path) {
+async function load(path) {
   const r = await fetch(path);
+  if (!r.ok) throw new Error(`Failed to load ${path}: ${r.status}`);
   return r.json();
 }
 
+function linReg(pts) {
+  const n = pts.length;
+  if (n < 2) return null;
+  let sx=0,sy=0,sxx=0,sxy=0;
+  pts.forEach(p=>{sx+=p.x;sy+=p.y;sxx+=p.x*p.x;sxy+=p.x*p.y;});
+  const m=(n*sxy-sx*sy)/(n*sxx-sx*sx);
+  const b=(sy-m*sx)/n;
+  return {m,b};
+}
+
 async function buildCharts() {
+  const [vol, price, corr, iqr, bp, events, segFit, scatter] = await Promise.all([
+    load('data/json/loess_volume.json'),
+    load('data/json/loess_price.json'),
+    load('data/json/correlation_table.json'),
+    load('data/json/iqr_over_time.json'),
+    load('data/json/segmented_breakpoints.json'),
+    load('data/json/events.json'),
+    load('data/json/segmented_fitted.json'),
+    load('data/json/scatter_data.json')
+  ]);
 
-  // Load all JSON in parallel
-  const [volData, priceData, corrData, iqrData, bpData, eventsData] =
-    await Promise.all([
-      loadJSON('data/json/loess_volume.json'),
-      loadJSON('data/json/loess_price.json'),
-      loadJSON('data/json/correlation_table.json'),
-      loadJSON('data/json/iqr_over_time.json'),
-      loadJSON('data/json/segmented_breakpoints.json'),
-      loadJSON('data/json/events.json')
-    ]);
+  // --- Market overview ---
+  new Chart(document.getElementById('chart_market_overview'), {
+    type:'line',
+    data:{
+      labels: getSmooth(vol,'Total market').labels,
+      datasets:[
+        line('Total market',      COLORS.total,    getSmooth(vol,'Total market').values),
+        line('Electric vehicles', COLORS.electric, getSmooth(vol,'Electric vehicles').values),
+        line('Fossil vehicles',   COLORS.fossil,   getSmooth(vol,'Fossil vehicles').values)
+      ]
+    },
+    options:{...BASE_OPTS}
+  });
 
-  // Helper: extract weeks and smooth values for a segment
-  function getSmooth(data, segment, key = 'n_smooth') {
-    const arr = data[segment] || [];
-    return {
-      labels: arr.map(d => d.week),
-      values: arr.map(d => d[key])
-    };
+  // --- Brand comparison ---
+  new Chart(document.getElementById('chart_brand_comparison'), {
+    type:'line',
+    data:{
+      labels: getSmooth(vol,'Tesla').labels,
+      datasets:[
+        line('Tesla',           COLORS.tesla,   getSmooth(vol,'Tesla').values, 3.5),
+        line('VW ID',           COLORS.vwid,    getSmooth(vol,'VW ID').values),
+        line('Skoda Enyaq',     COLORS.skoda,   getSmooth(vol,'Skoda Enyaq').values),
+        line('Hyundai Ioniq 5', COLORS.hyundai, getSmooth(vol,'Hyundai Ioniq 5').values),
+        line('BYD',             COLORS.byd,     getSmooth(vol,'BYD').values)
+      ]
+    },
+    options:{...BASE_OPTS}
+  });
+
+  // --- Segmented regression charts ---
+  function buildSegChart(canvasId, brand, color) {
+    const arr = segFit[brand] || [];
+    if (!arr.length) return;
+    const labels = arr.map(d => d.week);
+    const raw    = arr.map(d => d.index_raw);
+    const fit    = arr.map(d => d.index_fit);
+    const bpArr  = (bp[brand] || []).slice().sort((a,b) => a.bp - b.bp);
+    const maxVal = Math.max(...raw.filter(v=>v!=null));
+    const yMax   = maxVal * 1.3;
+
+    // Breakpoint vertical markers
+    const bpDs = bpArr.map(b => {
+      const idx = labels.findIndex(l => l >= b.date);
+      if (idx < 0) return null;
+      return {
+        label: `BP ${b.bp}`,
+        data: labels.map((_,j) => j === idx ? yMax * 0.92 : null),
+        borderColor: color,
+        backgroundColor: color,
+        borderWidth: 0,
+        pointRadius: labels.map((_,j) => j === idx ? 8 : 0),
+        pointStyle: 'triangle',
+        pointBackgroundColor: color,
+        tension:0, fill:false, spanGaps:false
+      };
+    }).filter(Boolean);
+
+    new Chart(document.getElementById(canvasId), {
+      type:'line',
+      data:{
+        labels,
+        datasets:[
+          {label:'Raw', data:raw, borderColor:color+'55',
+           backgroundColor:'transparent', borderWidth:1.2,
+           pointRadius:0, tension:0.1, fill:false},
+          {label:'Fitted', data:fit, borderColor:color,
+           backgroundColor:'transparent', borderWidth:4,
+           pointRadius:0, tension:0.1, fill:false},
+          ...bpDs
+        ]
+      },
+      options:{
+        ...BASE_OPTS,
+        scales:{
+          ...BASE_OPTS.scales,
+          y:{...BASE_OPTS.scales.y, max: yMax}
+        }
+      }
+    });
   }
 
-  // ---- 1. Market overview ----
-  const weeks_total = getSmooth(volData, 'Total market');
-  new Chart(document.getElementById('chart_market_overview'), {
-    type: 'line',
-    data: {
-      labels: weeks_total.labels,
-      datasets: [
-        lineDs('Total market',      COLORS.total,    getSmooth(volData, 'Total market').values),
-        lineDs('Electric vehicles', COLORS.electric, getSmooth(volData, 'Electric vehicles').values),
-        lineDs('Fossil vehicles',   COLORS.fossil,   getSmooth(volData, 'Fossil vehicles').values)
-      ]
-    },
-    options: { ...chartDefaults }
-  });
+  buildSegChart('chart_seg_tesla',   'Tesla',           COLORS.tesla);
+  buildSegChart('chart_seg_vwid',    'VW ID',           COLORS.vwid);
+  buildSegChart('chart_seg_skoda',   'Skoda Enyaq',     COLORS.skoda);
+  buildSegChart('chart_seg_hyundai', 'Hyundai Ioniq 5', COLORS.hyundai);
 
-  // ---- 2. Brand comparison ----
-  new Chart(document.getElementById('chart_brand_comparison'), {
-    type: 'line',
-    data: {
-      labels: getSmooth(volData, 'Tesla').labels,
-      datasets: [
-        lineDs('Tesla',           COLORS.tesla,   getSmooth(volData, 'Tesla').values),
-        lineDs('VW ID',           COLORS.vwid,    getSmooth(volData, 'VW ID').values),
-        lineDs('Skoda Enyaq',     COLORS.skoda,   getSmooth(volData, 'Skoda Enyaq').values),
-        lineDs('Hyundai Ioniq 5', COLORS.hyundai, getSmooth(volData, 'Hyundai Ioniq 5').values),
-        lineDs('BYD',             COLORS.byd,     getSmooth(volData, 'BYD').values)
-      ]
-    },
-    options: { ...chartDefaults }
-  });
+  // --- Breakpoint timing chart ---
+  const bpBrands = ['Tesla','VW ID','Skoda Enyaq','Hyundai Ioniq 5'];
+  const bpColors = [COLORS.tesla, COLORS.vwid, COLORS.skoda, COLORS.hyundai];
+  const bpLabels = ['Tesla','VW ID','Skoda Enyaq','Hyundai Ioniq 5'];
 
-  // ---- 3. Correlation chart (horizontal bar) ----
-  const corrSegs  = corrData.map(d => d.segment);
-  const pearsonVs = corrData.map(d => d.pearson_r);
-  const spearmanVs= corrData.map(d => d.spearman_rho);
+  const bpTimingDatasets = bpBrands.map((brand, i) => {
+    const pts = (bp[brand]||[]).slice().sort((a,b)=>a.bp-b.bp);
+    if (pts.length < 2) return null;
+    return {
+      label: brand,
+      data: pts.map(p => ({x: p.week_num, y: brand})),
+      borderColor: bpColors[i],
+      backgroundColor: bpColors[i],
+      borderWidth: 3,
+      pointRadius: 7,
+      pointStyle: 'circle',
+      showLine: true,
+      tension: 0
+    };
+  }).filter(Boolean);
 
-  new Chart(document.getElementById('chart_correlation'), {
-    type: 'bar',
-    data: {
-      labels: corrSegs,
-      datasets: [
-        {
-          label: 'Pearson r',
-          data: pearsonVs,
-          backgroundColor: COLORS.tesla + 'cc',
-          borderColor: COLORS.tesla,
-          borderWidth: 1.5,
-          borderRadius: 4
+  new Chart(document.getElementById('chart_bp_timing'), {
+    type:'scatter',
+    data:{datasets: bpTimingDatasets},
+    options:{
+      ...BASE_OPTS,
+      scales:{
+        x:{
+          ...BASE_OPTS.scales.x,
+          min:0, max:90,
+          title:{display:true, text:'Weeks from July 1, 2024',
+                 font:{family:'Inter',size:10}, color:'#7a7d9a'}
         },
-        {
-          label: 'Spearman ρ',
-          data: spearmanVs,
-          backgroundColor: COLORS.electric + 'cc',
-          borderColor: COLORS.electric,
-          borderWidth: 1.5,
-          borderRadius: 4
+        y:{
+          type:'category',
+          labels: bpLabels,
+          offset: true,
+          grid:{color:'#f0eef8'},
+          ticks:{font:{family:'Inter',size:10}, color:'#7a7d9a'}
         }
-      ]
-    },
-    options: {
-      ...chartDefaults,
-      indexAxis: 'y',
-      scales: {
-        x: {
-          ...chartDefaults.scales.x,
-          min: -1, max: 0.5,
-          ticks: { ...chartDefaults.scales.x.ticks, callback: v => v.toFixed(1) }
-        },
-        y: { ...chartDefaults.scales.y, grid: { display: false } }
       }
     }
   });
 
-  // ---- 4. Price LOESS ----
-  new Chart(document.getElementById('chart_price_loess'), {
-    type: 'line',
-    data: {
-      labels: getSmooth(priceData, 'Tesla', 'price_smooth').labels,
-      datasets: [
-        lineDs('Tesla',             COLORS.tesla,    getSmooth(priceData, 'Tesla',             'price_smooth').values),
-        lineDs('VW ID',             COLORS.vwid,     getSmooth(priceData, 'VW ID',             'price_smooth').values),
-        lineDs('Skoda Enyaq',       COLORS.skoda,    getSmooth(priceData, 'Skoda Enyaq',       'price_smooth').values),
-        lineDs('Hyundai Ioniq 5',   COLORS.hyundai,  getSmooth(priceData, 'Hyundai Ioniq 5',   'price_smooth').values),
-        lineDs('Electric vehicles', COLORS.electric, getSmooth(priceData, 'Electric vehicles', 'price_smooth').values)
-      ]
-    },
-    options: { ...chartDefaults }
-  });
-
-  // ---- 5. IQR over time ----
-  function getIQR(seg) {
-    const arr = iqrData[seg] || [];
-    return { labels: arr.map(d => d.week), values: arr.map(d => d.iqr_price) };
-  }
-
-  new Chart(document.getElementById('chart_iqr'), {
-    type: 'line',
-    data: {
-      labels: getIQR('Tesla').labels,
-      datasets: [
-        lineDs('Tesla',       COLORS.tesla, getIQR('Tesla').values),
-        lineDs('VW ID',       COLORS.vwid,  getIQR('VW ID').values),
-        lineDs('Skoda Enyaq', COLORS.skoda, getIQR('Skoda Enyaq').values)
-      ]
-    },
-    options: { ...chartDefaults }
-  });
-
-  // ---- 6. Breakpoint table ----
+  // --- Breakpoint table ---
   const tbody = document.getElementById('bp_table_body');
   tbody.innerHTML = '';
-
-  // Flatten bp data
-  const bpRows = [];
-  for (const [brand, pts] of Object.entries(bpData)) {
-    const bp1 = pts.find(p => p.bp === 1);
-    const bp2 = pts.find(p => p.bp === 2);
-    if (bp1 && bp2) {
-      bpRows.push({ brand, bp1, bp2 });
-    }
-  }
-
-  // Sort: Tesla first
-  bpRows.sort((a, b) => a.brand === 'Tesla' ? -1 : b.brand === 'Tesla' ? 1 : a.brand.localeCompare(b.brand));
-
-  bpRows.forEach(({ brand, bp1, bp2 }) => {
+  ['Tesla','VW ID','Skoda Enyaq','Hyundai Ioniq 5'].forEach(brand => {
+    const pts = bp[brand] || [];
+    const b1 = pts.find(p=>p.bp===1), b2 = pts.find(p=>p.bp===2);
+    if (!b1||!b2) return;
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${brand}</td>
-      <td>${bp1.week_num}</td>
-      <td>[${bp1.ci_low.slice(0,7)} – ${bp1.ci_high.slice(0,7)}]</td>
-      <td>${bp2.week_num}</td>
-      <td>[${bp2.ci_low.slice(0,7)} – ${bp2.ci_high.slice(0,7)}]</td>
-      <td>${bp1.r2}</td>
-      <td>${bp1.rse}</td>
-    `;
+    tr.innerHTML = `<td>${brand}</td><td>${b1.week_num}</td><td>[${b1.ci_low.slice(0,7)} – ${b1.ci_high.slice(0,7)}]</td><td>${b2.week_num}</td><td>[${b2.ci_low.slice(0,7)} – ${b2.ci_high.slice(0,7)}]</td><td>${b1.r2}</td><td>${b1.rse}</td>`;
     tbody.appendChild(tr);
+  });
+
+  // --- Correlation chart ---
+  new Chart(document.getElementById('chart_correlation'), {
+    type:'bar',
+    data:{
+      labels: corr.map(d=>d.segment),
+      datasets:[
+        {label:'Pearson r',  data:corr.map(d=>d.pearson_r),   backgroundColor:COLORS.tesla+'cc',   borderColor:COLORS.tesla,   borderWidth:1.5, borderRadius:4},
+        {label:'Spearman ρ', data:corr.map(d=>d.spearman_rho),backgroundColor:COLORS.electric+'cc',borderColor:COLORS.electric,borderWidth:1.5, borderRadius:4}
+      ]
+    },
+    options:{
+      ...BASE_OPTS, indexAxis:'y',
+      scales:{
+        x:{...BASE_OPTS.scales.x, min:-1, max:0.5, ticks:{...BASE_OPTS.scales.x.ticks, callback:v=>v.toFixed(1)}},
+        y:{...BASE_OPTS.scales.y, grid:{display:false}}
+      }
+    }
+  });
+
+  // --- Scatter with trendlines within each brand's x-range ---
+  const scatterBrands = [
+    {key:'Tesla',           color:COLORS.tesla},
+    {key:'VW ID',           color:COLORS.vwid},
+    {key:'Skoda Enyaq',     color:COLORS.skoda},
+    {key:'Hyundai Ioniq 5', color:COLORS.hyundai}
+  ];
+
+  const scatterDatasets = [];
+  scatterBrands.forEach(b => {
+    const arr = scatter[b.key]||[];
+    const pts = arr.map(d=>({x:d.n, y:d.median_price}));
+    const xMin = Math.min(...pts.map(p=>p.x));
+    const xMax = Math.max(...pts.map(p=>p.x));
+
+    scatterDatasets.push({
+      label: b.key,
+      data: pts,
+      backgroundColor: b.color+'77',
+      borderColor: b.color,
+      borderWidth: 1,
+      pointRadius: 3,
+      type:'scatter'
+    });
+
+    const reg = linReg(pts);
+    if (reg) {
+      scatterDatasets.push({
+        label: b.key + ' trend',
+        data: [{x:xMin, y:reg.m*xMin+reg.b}, {x:xMax, y:reg.m*xMax+reg.b}],
+        borderColor: b.color,
+        backgroundColor: 'transparent',
+        borderWidth: 2.5,
+        pointRadius: 0,
+        tension: 0,
+        fill: false,
+        type:'line'
+      });
+    }
+  });
+
+  new Chart(document.getElementById('chart_scatter'), {
+    type:'scatter',
+    data:{datasets: scatterDatasets},
+    options:{
+      ...BASE_OPTS,
+      scales:{
+        x:{...BASE_OPTS.scales.x, min:0, max:600,
+           title:{display:true, text:'Weekly listings', font:{family:'Inter',size:10}, color:'#7a7d9a'}},
+        y:{...BASE_OPTS.scales.y,
+           title:{display:true, text:'Median retail price (DKK)', font:{family:'Inter',size:10}, color:'#7a7d9a'}}
+      }
+    }
+  });
+
+  // --- Price LOESS ---
+  new Chart(document.getElementById('chart_price_loess'), {
+    type:'line',
+    data:{
+      labels: getSmooth(price,'Tesla','price_smooth').labels,
+      datasets:[
+        line('Tesla',             COLORS.tesla,    getSmooth(price,'Tesla',            'price_smooth').values, 3.5),
+        line('VW ID',             COLORS.vwid,     getSmooth(price,'VW ID',            'price_smooth').values),
+        line('Skoda Enyaq',       COLORS.skoda,    getSmooth(price,'Skoda Enyaq',      'price_smooth').values),
+        line('Hyundai Ioniq 5',   COLORS.hyundai,  getSmooth(price,'Hyundai Ioniq 5',  'price_smooth').values),
+        line('Electric vehicles', COLORS.electric, getSmooth(price,'Electric vehicles','price_smooth').values)
+      ]
+    },
+    options:{...BASE_OPTS}
+  });
+
+  // --- IQR over time — LOESS smoothed ---
+  function getIQR(seg) {
+    const arr = iqr[seg]||[];
+    return {labels:arr.map(d=>d.week), values:arr.map(d=>d.iqr_smooth != null ? d.iqr_smooth : d.iqr_price)};
+  }
+  new Chart(document.getElementById('chart_iqr'), {
+    type:'line',
+    data:{
+      labels: getIQR('Tesla').labels,
+      datasets:[
+        line('Tesla',       COLORS.tesla, getIQR('Tesla').values, 3.5),
+        line('VW ID',       COLORS.vwid,  getIQR('VW ID').values),
+        line('Skoda Enyaq', COLORS.skoda, getIQR('Skoda Enyaq').values)
+      ]
+    },
+    options:{...BASE_OPTS}
+  });
+
+  // --- Raw prices — Tesla fremhævet ---
+  const rawBrands = [
+    {key:'Tesla',           color:COLORS.tesla,   width:3.5},
+    {key:'VW ID',           color:COLORS.vwid,    width:1.5},
+    {key:'Skoda Enyaq',     color:COLORS.skoda,   width:1.5},
+    {key:'Hyundai Ioniq 5', color:COLORS.hyundai, width:1.5}
+  ];
+  new Chart(document.getElementById('chart_raw_prices'), {
+    type:'line',
+    data:{
+      labels: (scatter['Tesla']||[]).map(d=>d.week),
+      datasets: rawBrands.map(b => {
+        const arr = scatter[b.key]||[];
+        return {
+          label: b.key,
+          data: arr.map(d=>d.median_price),
+          borderColor: b.color,
+          backgroundColor: 'transparent',
+          borderWidth: b.width,
+          pointRadius: 0,
+          tension: 0.2,
+          fill: false
+        };
+      })
+    },
+    options:{...BASE_OPTS}
   });
 }
 
 buildCharts().catch(err => {
   console.error('Chart build error:', err);
   document.querySelectorAll('canvas').forEach(c => {
-    c.parentElement.innerHTML += '<p style="color:#c0392b;font-size:0.8rem">Chart could not load — check that data/json/ files are present.</p>';
+    const parent = c.closest('.chart-card') || c.parentElement;
+    parent.insertAdjacentHTML('beforeend','<p style="color:#c0392b;font-size:0.8rem;margin-top:0.5rem">Chart could not load — check that data/json/ files are present.</p>');
   });
 });
 </script>
